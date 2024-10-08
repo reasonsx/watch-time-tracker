@@ -1,7 +1,5 @@
 // import './assets/main.css'
 
-// import { createApp } from 'vue'
-// import App from './App.vue'
 // import router from './router'
 
 // const app = createApp(App)
@@ -13,5 +11,6 @@
 import { createApp } from 'vue'
 import App from './App.vue'
 import './index.css'
+// import router from './router'
 
 createApp(App).mount('#app')
