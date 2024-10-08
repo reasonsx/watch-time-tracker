@@ -5,6 +5,8 @@ import Header from './components/home/Header.vue'
 
 
 <template>
+    <RouterLink to="/login" class="text-sm font-semibold leading-6 text-gray-900">Log in <span
+        aria-hidden="true">&rarr;</span></RouterLink>
     <Header />
     <MoviesList />
 </template>
