@@ -1,6 +1,6 @@
 <script setup>
-import { MoviesList } from './components/home/MoviesList.vue'
-import { Header } from './components/home/Header.vue'
+import MoviesList from './components/home/MoviesList.vue'
+import Header from './components/home/Header.vue'
 </script>
 
 
