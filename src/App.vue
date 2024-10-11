@@ -3,6 +3,7 @@
 
 import MoviesList from './components/home/MoviesList.vue'
 import Header from './components/home/Header.vue'
+import MovieSearch from './components/home/MovieSearch.vue'
 </script>
 
 
@@ -10,6 +11,8 @@ import Header from './components/home/Header.vue'
     <RouterLink to="/login">something</RouterLink>
     
     <Header />
+    <MovieSearch />
     <MoviesList />
+
 </template>
 <style scoped></style>
