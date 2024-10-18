@@ -1,18 +1,7 @@
-<script setup>
-// import { RouterLink } from 'vue-router'
-
-import MoviesList from './components/home/MoviesList.vue'
-import Header from './components/home/Header.vue'
-import MovieSearch from './components/home/MovieSearch.vue'
-</script>
-
+<script setup></script>
 
 <template>
-    <RouterLink to="/login">something</RouterLink>
-    
-    <Header />
-    <MovieSearch />
-    <MoviesList />
-
+    <router-view />
 </template>
+
 <style scoped></style>

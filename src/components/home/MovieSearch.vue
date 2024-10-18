@@ -10,7 +10,7 @@
             <div class="text-center">
                 <h1 class="text-balance text-4xl font-bold tracking-tight text-gray-900 sm:text-6xl">Search for a movie
                 </h1>
-                <p class="mt-6 text-lg leading-8 text-gray-600">Simply just type in your favourite movie title</p>
+                <p class="mt-6 text-lg leading-8 text-gray-600">Just type your favorite movie title below</p>
                 <div>
 
                     <div class="relative mt-2 rounded-md shadow-sm">

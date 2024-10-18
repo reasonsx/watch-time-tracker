@@ -1,6 +1,6 @@
 <template>
     <div>
-hello
+This is a profile page
     </div>
 </template>
 
