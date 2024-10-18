@@ -51,6 +51,9 @@
         </div>
       </form>
 
+      <p class="mt-2 text-center text-sm text-green-500" v-if="success">{{ success }}</p> <!-- Display success message -->
+      <p class="mt-2 text-center text-sm text-red-500" v-if="error">{{ error }}</p> <!-- Display error message -->
+
       <p class="mt-10 text-center text-sm text-gray-500">
         Not a member?
         {{ ' ' }}
@@ -58,8 +61,6 @@
           <a href="#" class="font-semibold leading-6 text-indigo-600 hover:text-indigo-500">Sign up</a>
         </RouterLink>
       </p>
-
-      <p class="mt-2 text-center text-sm text-red-500" v-if="error">{{ error }}</p> <!-- Display error message -->
     </div>
   </div>
 </template>
@@ -68,18 +69,35 @@
 import { ref } from 'vue';
 import { signInWithEmailAndPassword } from 'firebase/auth';
 import { auth } from '../../firebaseConfig'; // Import the Firebase auth
+import { useRouter } from 'vue-router'; // Import useRouter for navigation
 
 const email = ref('');
 const password = ref('');
 const error = ref('');
+const success = ref('');
+
+// Get the router instance
+const router = useRouter();
 
 const login = async () => {
   try {
+    // Reset messages
+    error.value = '';
+    success.value = '';
+
     await signInWithEmailAndPassword(auth, email.value, password.value);
     console.log('User signed in successfully');
-    // Redirect to the user's dashboard or another page after successful login
+    
+    // Set success message
+    success.value = 'Login successful! Redirecting...';
+
+    // Redirect to home page after a short delay
+    setTimeout(() => {
+      router.push('/'); // Redirect to home (or specify your home route)
+    }, 2000); // Adjust delay as necessary (e.g., 2000 milliseconds = 2 seconds)
+
   } catch (err) {
-    error.value = err.message;
+    error.value = err.message; // Display the error message
     console.error('Error signing in:', error.value);
   }
 };

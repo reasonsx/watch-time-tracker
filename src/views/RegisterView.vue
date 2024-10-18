@@ -62,13 +62,15 @@
         </div>
       </form>
 
+      <p class="mt-2 text-center text-sm text-green-500" v-if="success">{{ success }}</p>
+      <p class="mt-2 text-center text-sm text-red-500" v-if="error">{{ error }}</p>
+
       <p class="mt-10 text-center text-sm text-gray-500">
         Already have an account?
         <RouterLink to="/login" class="font-semibold leading-6 text-indigo-600 hover:text-indigo-500">
           Sign in
         </RouterLink>
       </p>
-      <p class="mt-2 text-center text-sm text-red-500" v-if="error">{{ error }}</p> <!-- Display error message -->
     </div>
   </div>
 </template>
@@ -83,9 +85,31 @@ const username = ref('');
 const email = ref('');
 const password = ref('');
 const error = ref('');
+const success = ref(''); // Add a reactive variable for success messages
+
+const getErrorMessage = (errorCode) => {
+  switch (errorCode) {
+    case 'auth/email-already-in-use':
+      return 'This email is already in use. Please use a different email.';
+    case 'auth/invalid-email':
+      return 'The email address is not valid. Please enter a valid email.';
+    case 'auth/weak-password':
+      return 'The password is too weak. Please use a stronger password.';
+    case 'auth/operation-not-allowed':
+      return 'Email/Password sign-in is not enabled. Please check your settings.';
+    case 'auth/too-many-requests':
+      return 'Too many requests. Please try again later.';
+    default:
+      return 'An unknown error occurred. Please try again.';
+  }
+};
 
 const register = async () => {
   try {
+    // Reset messages
+    error.value = '';
+    success.value = '';
+
     // Create user with email and password
     const userCredential = await createUserWithEmailAndPassword(auth, email.value, password.value);
     const user = userCredential.user;
@@ -97,15 +121,16 @@ const register = async () => {
       password: password.value, // Ideally, store only the hashed version of the password
       role: 'user', // Default role
       createdAt: serverTimestamp(),
-      updatedAt: serverTimestamp()
     };
 
     // Save user data to Firestore
-    await setDoc(doc(db, 'users', user.uid), userData);
+    await setDoc(doc(db, 'Users', user.uid), userData);
     console.log('User registered successfully');
-    // Redirect to login or another page after registration
+    
+    // Set success message
+    success.value = 'Registration successful! You can now log in.';
   } catch (err) {
-    error.value = err.message;
+    error.value = getErrorMessage(err.code); // Use the error mapping function
     console.error('Error registering user:', error.value);
   }
 };
