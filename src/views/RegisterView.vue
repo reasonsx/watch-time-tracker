@@ -7,7 +7,7 @@
     </div>
 
     <div class="mt-10 sm:mx-auto sm:w-full sm:max-w-sm">
-      <form class="space-y-6" action="#" method="POST">
+      <form class="space-y-6" @submit.prevent="register">
         <div>
           <label for="username" class="block text-sm font-medium leading-6 text-gray-900">Username</label>
           <div class="mt-2">
@@ -15,7 +15,7 @@
               id="username"
               name="username"
               type="text"
-              autocomplete="username"
+              v-model="username"
               required
               class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
             />
@@ -29,7 +29,7 @@
               id="email"
               name="email"
               type="email"
-              autocomplete="email"
+              v-model="email"
               required
               class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
             />
@@ -45,7 +45,7 @@
               id="password"
               name="password"
               type="password"
-              autocomplete="current-password"
+              v-model="password"
               required
               class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
             />
@@ -68,11 +68,47 @@
           Sign in
         </RouterLink>
       </p>
+      <p class="mt-2 text-center text-sm text-red-500" v-if="error">{{ error }}</p> <!-- Display error message -->
     </div>
   </div>
 </template>
 
 <script setup>
+import { ref } from 'vue';
+import { createUserWithEmailAndPassword } from 'firebase/auth';
+import { auth, db } from '../../firebaseConfig'; // Import Firebase auth and Firestore
+import { doc, setDoc, serverTimestamp } from 'firebase/firestore'; // Firestore methods
+
+const username = ref('');
+const email = ref('');
+const password = ref('');
+const error = ref('');
+
+const register = async () => {
+  try {
+    // Create user with email and password
+    const userCredential = await createUserWithEmailAndPassword(auth, email.value, password.value);
+    const user = userCredential.user;
+
+    // Define user data
+    const userData = {
+      username: username.value,
+      email: email.value,
+      password: password.value, // Ideally, store only the hashed version of the password
+      role: 'user', // Default role
+      createdAt: serverTimestamp(),
+      updatedAt: serverTimestamp()
+    };
+
+    // Save user data to Firestore
+    await setDoc(doc(db, 'users', user.uid), userData);
+    console.log('User registered successfully');
+    // Redirect to login or another page after registration
+  } catch (err) {
+    error.value = err.message;
+    console.error('Error registering user:', error.value);
+  }
+};
 </script>
 
 <style scoped>

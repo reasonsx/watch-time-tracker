@@ -27,7 +27,12 @@
               to="/login" 
               class="text-sm font-semibold leading-6 text-gray-900"
             >
-              Log in <span aria-hidden="true">&rarr;</span>
+              Log in 
+              <!-- <span aria-hidden="true">&rarr;</span> -->
+            </RouterLink>
+            <RouterLink
+            to="/register">
+            <button class="inline-flex justify-center rounded-lg text-sm font-semibold py-2.5 px-4 bg-slate-900 text-white hover:bg-slate-700 -my-2.5 ml-8" href="/all-access"><span>Sign up</span></button>
             </RouterLink>
           </div>
         </nav>
