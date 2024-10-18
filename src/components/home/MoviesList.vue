@@ -1,70 +1,38 @@
 <template>
-    <div class="bg-white">
-      <div class="mx-auto max-w-2xl px-4 py-16 sm:px-6 sm:py-24 lg:max-w-7xl lg:px-8">
-        <!-- <h2 class="sr-only">Products</h2> -->
-  
-        <div class="grid grid-cols-1 gap-x-6 gap-y-10 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 xl:gap-x-8">
-          <a v-for="product in products" :key="product.id" :href="product.href" class="group">
-            <div class="aspect-h-1 aspect-w-1 w-full overflow-hidden rounded-lg bg-gray-200 xl:aspect-h-8 xl:aspect-w-7">
-              <img :src="product.imageSrc" :alt="product.imageAlt" class="h-full w-full object-cover object-center group-hover:opacity-75" />
-            </div>
-            <h3 class="mt-4 text-sm text-gray-700">{{ product.name }}</h3>
-            <p class="mt-1 text-lg font-medium text-gray-900">{{ product.price }}</p>
-          </a>
-        </div>
+  <div class="bg-white">
+    <div class="mx-auto max-w-2xl px-4 py-16 sm:px-6 sm:py-24 lg:max-w-7xl lg:px-8">
+      <div class="grid grid-cols-1 gap-x-6 gap-y-10 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 xl:gap-x-8">
+        <a v-for="movie in movies" :key="movie.id" :href="movie.href" class="group">
+          <div class="relative w-full overflow-hidden rounded-lg bg-gray-200" style="padding-bottom: 150%;"> <!-- 2:3 ratio -->
+            <img
+              :src="movie.poster"
+              :alt="movie.title"
+              class="absolute inset-0 h-full w-full object-cover object-center group-hover:opacity-75"
+            />
+          </div>
+          <h3 class="mt-4 text-sm text-gray-700">{{ movie.title }}</h3>
+          <p class="mt-1 text-lg font-medium text-gray-900">{{ movie.time }} minutes</p>
+        </a>
       </div>
     </div>
-  </template>
+  </div>
+</template>
   
   <script setup>
-  const products = [
-    {
-      id: 1,
-      name: 'Earthen Bottle',
-      href: '#',
-      price: '$48',
-      imageSrc: 'https://img.posterstore.com/zoom/wb0001-8harrypotter-sorcerersstone50x70.jpg',
-      imageAlt: 'Tall slender porcelain bottle with natural clay textured body and cork stopper.',
-    },
-    {
-      id: 2,
-      name: 'Nomad Tumbler',
-      href: '#',
-      price: '$35',
-      imageSrc: 'https://i.ebayimg.com/00/s/MTYwMFgxMTMx/z/THAAAOSwaBJervVy/$_57.JPG?set_id=8800005007',
-      imageAlt: 'Olive drab green insulated bottle with flared screw lid and flat top.',
-    },
-    {
-      id: 3,
-      name: 'Focus Paper Refill',
-      href: '#',
-      price: '$89',
-      imageSrc: 'https://tailwindui.com/plus/img/ecommerce-images/category-page-04-image-card-03.jpg',
-      imageAlt: 'Person using a pen to cross a task off a productivity paper card.',
-    },
-    {
-      id: 4,
-      name: 'Machined Mechanical Pencil',
-      href: '#',
-      price: '$35',
-      imageSrc: 'https://tailwindui.com/plus/img/ecommerce-images/category-page-04-image-card-04.jpg',
-      imageAlt: 'Hand holding black machined steel mechanical pencil with brass tip and top.',
-    },
-    {
-      id: 4,
-      name: 'Machined Mechanical Pencil',
-      href: '#',
-      price: '$35',
-      imageSrc: 'https://tailwindui.com/plus/img/ecommerce-images/category-page-04-image-card-04.jpg',
-      imageAlt: 'Hand holding black machined steel mechanical pencil with brass tip and top.',
-    },
-    {
-      id: 4,
-      name: 'Machined Mechanical Pencil',
-      href: '#',
-      price: '$35',
-      imageSrc: 'https://tailwindui.com/plus/img/ecommerce-images/category-page-04-image-card-04.jpg',
-      imageAlt: 'Hand holding black machined steel mechanical pencil with brass tip and top.',
-    },
-  ]
+  import { ref, onMounted } from 'vue';
+import { db } from '../../../firebaseConfig';
+import { collection, getDocs } from 'firebase/firestore';
+
+const movies = ref([]); // Updated variable name
+
+const fetchMovies = async () => {
+    const querySnapshot = await getDocs(collection(db, "Movies"));
+    querySnapshot.forEach((doc) => {
+        movies.value.push({ id: doc.id, ...doc.data() }); // Updated to use movie variable
+    });
+};
+
+onMounted(() => {
+    fetchMovies();
+});
   </script>
