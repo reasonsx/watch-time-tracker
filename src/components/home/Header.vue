@@ -1,97 +1,57 @@
 <template>
-    <div class="bg-white">
-      <header class="absolute inset-x-0 top-0 z-50">
-        <nav class="flex items-center justify-between p-6 lg:px-8" aria-label="Global">
-          <div class="flex lg:hidden">
-            <button 
-              type="button"
-              class="-m-2.5 inline-flex items-center justify-center rounded-md p-2.5 text-gray-700"
-              @click="mobileMenuOpen = true"
-            >
-              <span class="sr-only">Open main menu</span>
-              <Bars3Icon class="h-6 w-6" aria-hidden="true" />
-            </button>
+  <div class="bg-white">
+    <header class="absolute inset-x-0 top-0 z-50">
+      <nav class="flex items-center justify-between p-6 lg:px-8" aria-label="Global">
+        <div class="hidden lg:flex lg:gap-x-12">
+          <a v-for="item in navigation" :key="item.name" :href="item.href" class="text-sm font-semibold leading-6 text-gray-900">
+            {{ item.name }}
+          </a>
+        </div>
+        <div class="hidden lg:flex lg:flex-1 lg:justify-end">
+          <div v-if="user">
+            <!-- Show if user is logged in -->
+            <span class="text-sm font-semibold leading-6 text-gray-900">Welcome, {{ user.displayName }}</span>
+            <button @click="logout" class="ml-4 text-sm font-semibold leading-6 text-indigo-600 hover:text-indigo-500">Log out</button>
           </div>
-          <div class="hidden lg:flex lg:gap-x-12">
-            <a 
-              v-for="item in navigation" 
-              :key="item.name" 
-              :href="item.href"
-              class="text-sm font-semibold leading-6 text-gray-900"
-            >
-              {{ item.name }}
-            </a>
-          </div>
-          <div class="hidden lg:flex lg:flex-1 lg:justify-end">
-            <RouterLink 
-              to="/login" 
-              class="text-sm font-semibold leading-6 text-gray-900"
-            >
-              Log in 
-              <!-- <span aria-hidden="true">&rarr;</span> -->
+          <div v-else>
+            <!-- Show if user is not logged in -->
+            <RouterLink to="/login" class="text-sm font-semibold leading-6 text-gray-900">
+              Log in
             </RouterLink>
-            <RouterLink
-            to="/register">
-            <button class="inline-flex justify-center rounded-lg text-sm font-semibold py-2.5 px-4 bg-slate-900 text-white hover:bg-slate-700 -my-2.5 ml-8" href="/all-access"><span>Sign up</span></button>
-            </RouterLink>
-          </div>
-        </nav>
-  
-        <Dialog class="lg:hidden" @close="mobileMenuOpen = false" :open="mobileMenuOpen">
-          <div class="fixed inset-0 z-50" />
-          <DialogPanel 
-            class="fixed inset-y-0 right-0 z-50 w-full overflow-y-auto bg-white px-6 py-6 sm:max-w-sm sm:ring-1 sm:ring-gray-900/10"
-          >
-            <div class="flex items-center justify-between">
-              <a href="#" class="-m-1.5 p-1.5">
-                <span class="sr-only">Your Company</span>
-                <img 
-                  class="h-8 w-auto"
-                  src="https://tailwindui.com/plus/img/logos/mark.svg?color=indigo&shade=600" 
-                  alt="" 
-                />
-              </a>
-              <button 
-                type="button" 
-                class="-m-2.5 rounded-md p-2.5 text-gray-700"
-                @click="mobileMenuOpen = false"
-              >
-                <span class="sr-only">Close menu</span>
-                <XMarkIcon class="h-6 w-6" aria-hidden="true" />
+            <RouterLink to="/register">
+              <button class="inline-flex justify-center rounded-lg text-sm font-semibold py-2.5 px-4 bg-slate-900 text-white hover:bg-slate-700 ml-8">
+                Sign up
               </button>
-            </div>
-            <div class="mt-6 flow-root">
-              <div class="-my-6 divide-y divide-gray-500/10">
-                <div class="space-y-2 py-6">
-                  <a 
-                    v-for="item in navigation" 
-                    :key="item.name" 
-                    :href="item.href"
-                    class="-mx-3 block rounded-lg px-3 py-2 text-base font-semibold leading-7 text-gray-900 hover:bg-gray-50"
-                  >
-                    {{ item.name }}
-                  </a>
-                </div>
-  
-                <div class="py-6">
-                  <a 
-                    href="#" 
-                    class="-mx-3 block rounded-lg px-3 py-2.5 text-base font-semibold leading-7 text-gray-900 hover:bg-gray-50"
-                  >
-                    Log in
-                  </a>
-                </div>
-              </div>
-            </div>
-          </DialogPanel>
-        </Dialog>
-      </header>
-    </div>
-  </template>
-  
-  <script setup>
-  </script>
-  
-  <style scoped>
-  </style>
-  
+            </RouterLink>
+          </div>
+        </div>
+      </nav>
+    </header>
+  </div>
+</template>
+
+<script setup>
+import { ref, onMounted } from 'vue';
+import { onAuthStateChanged, signOut } from 'firebase/auth';
+import { auth } from '../../../firebaseConfig';
+
+const user = ref(null);
+
+// Watch authentication state changes
+onAuthStateChanged(auth, (currentUser) => {
+  user.value = currentUser;
+});
+
+// Logout function
+const logout = async () => {
+  try {
+    await signOut(auth);
+    user.value = null;
+  } catch (err) {
+    console.error('Error signing out:', err);
+  }
+};
+</script>
+
+<style scoped>
+</style>

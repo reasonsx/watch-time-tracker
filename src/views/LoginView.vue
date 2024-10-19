@@ -67,41 +67,43 @@
 
 <script setup>
 import { ref } from 'vue';
-import { signInWithEmailAndPassword } from 'firebase/auth';
-import { auth } from '../../firebaseConfig'; // Import the Firebase auth
-import { useRouter } from 'vue-router'; // Import useRouter for navigation
+import { signInWithEmailAndPassword, onAuthStateChanged } from 'firebase/auth';
+import { auth } from '../../firebaseConfig'; // Firebase configuration
+import { useRouter } from 'vue-router'; // Router for navigation
 
 const email = ref('');
 const password = ref('');
 const error = ref('');
 const success = ref('');
+const user = ref(null); // To keep track of the logged-in user
 
-// Get the router instance
 const router = useRouter();
 
+// Watch for authentication state changes
+onAuthStateChanged(auth, (currentUser) => {
+  user.value = currentUser;
+});
+
+// Login function
 const login = async () => {
   try {
-    // Reset messages
     error.value = '';
     success.value = '';
 
+    // Sign in user
     await signInWithEmailAndPassword(auth, email.value, password.value);
-    console.log('User signed in successfully');
-    
-    // Set success message
     success.value = 'Login successful! Redirecting...';
 
-    // Redirect to home page after a short delay
+    // Redirect to home page
     setTimeout(() => {
-      router.push('/'); // Redirect to home (or specify your home route)
-    }, 2000); // Adjust delay as necessary (e.g., 2000 milliseconds = 2 seconds)
-
+      router.push('/');
+    }, 2000);
   } catch (err) {
-    error.value = err.message; // Display the error message
-    console.error('Error signing in:', error.value);
+    error.value = err.message;
   }
 };
 </script>
+
 
 <style scoped>
 </style>
