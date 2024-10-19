@@ -1,25 +1,23 @@
 <template>
-  <div class="bg-white">
+  <div class="bg-white fixed z-20 w-full">
     <header class="absolute inset-x-0 top-0 z-50">
       <nav class="flex items-center justify-between p-6 lg:px-8" aria-label="Global">
-        <div class="hidden lg:flex lg:gap-x-12">
-          <a v-for="item in navigation" :key="item.name" :href="item.href" class="text-sm font-semibold leading-6 text-gray-900">
-            {{ item.name }}
-          </a>
-        </div>
-        <div class="hidden lg:flex lg:flex-1 lg:justify-end">
-          <div v-if="user">
-            <!-- Show if user is logged in -->
+
+        <div class="flex-grow flex justify-end">
+
+          <!-- display if user is logged -->
+          <div v-if="user" class="flex items-center">
             <span class="text-sm font-semibold leading-6 text-gray-900">Welcome, {{ user.email }}</span>
             <button @click="logout" class="ml-4 text-sm font-semibold leading-6 text-indigo-600 hover:text-indigo-500">Log out</button>
           </div>
-          <div v-else>
-            <!-- Show if user is not logged in -->
-            <RouterLink to="/login" class="text-sm font-semibold leading-6 text-gray-900">
+
+          <!-- display if user is not logged -->
+          <div v-else class="flex flex-col lg:flex-row items-start lg:items-center">
+            <RouterLink to="/login" class="text-sm self-center font-semibold leading-6 text-gray-900 block lg:inline">
               Log in
             </RouterLink>
-            <RouterLink to="/register">
-              <button class="inline-flex justify-center rounded-lg text-sm font-semibold py-2.5 px-4 bg-slate-900 text-white hover:bg-slate-700 ml-8">
+            <RouterLink to="/register" class="mt-2 lg:mt-0 lg:ml-8">
+              <button class="inline-flex justify-center rounded-lg text-sm font-semibold py-2.5 px-4 bg-slate-900 text-white hover:bg-slate-700">
                 Sign up
               </button>
             </RouterLink>
