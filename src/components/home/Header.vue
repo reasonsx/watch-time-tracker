@@ -10,7 +10,7 @@
         <div class="hidden lg:flex lg:flex-1 lg:justify-end">
           <div v-if="user">
             <!-- Show if user is logged in -->
-            <span class="text-sm font-semibold leading-6 text-gray-900">Welcome, {{ user.displayName }}</span>
+            <span class="text-sm font-semibold leading-6 text-gray-900">Welcome, {{ user.email }}</span>
             <button @click="logout" class="ml-4 text-sm font-semibold leading-6 text-indigo-600 hover:text-indigo-500">Log out</button>
           </div>
           <div v-else>
