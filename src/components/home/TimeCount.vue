@@ -1,8 +1,8 @@
 <template>
-    <div class="bg-white p-6 rounded-lg shadow-md border border-gray-200">
+    <div class="bg-white p-6 fixed w-full z-10 shadow-md border border-gray-200">
       <h2 class="text-2xl font-bold mb-2 text-center text-indigo-600">Total Time</h2>
       <p class="text-lg text-gray-700 text-center">{{ formattedTime }}</p>
-      <p v-if="totalTime > 0" class="mt-4 text-sm text-gray-500 text-center">
+      <p class="mt-4 text-sm text-gray-500 text-center">
         Click on movie posters to add time!
       </p>
     </div>
