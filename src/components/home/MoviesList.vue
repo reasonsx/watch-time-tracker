@@ -1,6 +1,13 @@
 <template>
   <div class="bg-white pt-20">
     <div class="mx-auto max-w-2xl px-4 py-16 sm:px-6 sm:py-24 lg:max-w-7xl lg:px-8">
+      <!-- add the movie button, only for admin -->
+      <div v-if="admin" class="mt-2 mb-6 text-center">
+          <button @click="addMovie" class="inline-flex justify-center rounded-lg text-sm font-semibold py-2.5 px-4 bg-green-600 text-white hover:bg-green-500">
+            Add New Movie
+          </button>
+        </div>
+        
       <div class="grid grid-cols-1 gap-x-6 gap-y-10 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 xl:gap-x-8">
         <div 
           v-for="movie in movies" 
@@ -28,6 +35,8 @@
 import { ref, onMounted, inject } from 'vue';
 import { db } from '../../../firebaseConfig';
 import { collection, getDocs } from 'firebase/firestore';
+
+
 
 const movies = ref([]);
 const timeCounter = inject('timeCounter'); // Inject the TimeCount instance
