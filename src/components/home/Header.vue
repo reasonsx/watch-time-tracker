@@ -49,6 +49,7 @@ const logout = async () => {
     console.error('Error signing out:', err);
   }
 };
+
 </script>
 
 <style scoped>

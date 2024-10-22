@@ -134,6 +134,7 @@ const register = async () => {
     console.error('Error registering user:', error.value);
   }
 };
+
 </script>
 
 <style scoped>

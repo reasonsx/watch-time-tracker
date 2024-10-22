@@ -52,6 +52,7 @@ const addMovieTime = (time) => {
 onMounted(() => {
   fetchMovies();
 });
+
 </script>
 
 <style scoped>
