@@ -105,6 +105,8 @@ const addMovieTime = (time) => {
   }
 };
 
+
+
 // Function to add a new movie
 const addMovie = async () => {
   try {
