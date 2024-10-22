@@ -21,7 +21,7 @@
             <img
               :src="movie.poster"
               :alt="movie.title"
-              class="absolute inset-0 h-full w-full object-cover object-center group-hover:opacity-75"
+              class="absolute inset-0 h-full w-full object-cover object-center transition-opacity duration-200 ease-in-out group-hover:opacity-75"
             />
           </div>
 
