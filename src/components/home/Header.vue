@@ -12,7 +12,7 @@
           <div v-else class="flex flex-col lg:flex-row items-start lg:items-center">
             <RouterLink to="/login" class="text-sm self-center font-semibold leading-6 text-gray-900 block lg:inline">Log in</RouterLink>
             <RouterLink to="/register" class="mt-2 lg:mt-0 lg:ml-8">
-              <button class="inline-flex justify-center rounded-lg text-sm font-semibold py-2.5 px-4 bg-slate-900 text-white hover:bg-slate-700">Sign up</button>
+              <button class="inline-flex justify-center rounded-lg text-sm font-semibold py-2.5 px-4 bg-indigo-600 text-white hover:bg-indigo-500">Sign up</button>
             </RouterLink>
           </div>
         </div>
