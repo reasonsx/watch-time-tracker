@@ -1,9 +1,12 @@
 <template>
   <div class="bg-white pt-20">
     <div class="mx-auto max-w-2xl px-4 py-16 sm:px-6 sm:py-24 lg:max-w-7xl lg:px-8">
-      <!-- add the movie button, only for admin -->
-      <div v-if="admin" class="mt-2 mb-6 text-center">
-          <button @click="addMovie" class="inline-flex justify-center rounded-lg text-sm font-semibold py-2.5 px-4 bg-green-600 text-white hover:bg-green-500">
+      <!-- Show Add Movie Button if Admin -->
+      <div v-if="isAdmin" class="mt-2 mb-6 text-center">
+          <button
+            @click="addMovie"
+            class="inline-flex justify-center rounded-lg text-sm font-semibold py-2.5 px-4 bg-green-600 text-white hover:bg-green-500"
+          >
             Add New Movie
           </button>
         </div>
@@ -25,6 +28,15 @@
 
           <h3 class="mt-4 text-sm text-gray-700 text-center">{{ movie.title }}</h3>
           <p class="mt-1 text-lg font-medium text-gray-900 text-center">{{ movie.time }} minutes</p>
+           <!-- Edit and Delete Buttons -->
+           <div v-if="isAdmin" class="mt-4 flex justify-center space-x-2">
+              <button @click.prevent="openEditModal(movie)" class="inline-flex items-center px-4 py-2 text-sm font-medium text-white bg-blue-600 rounded hover:bg-blue-500">
+                Edit
+              </button>
+              <button @click.prevent="deleteMovie(movie.id)" class="inline-flex items-center px-4 py-2 text-sm font-medium text-white bg-red-600 rounded hover:bg-red-500">
+                Delete
+              </button>
+            </div>
         </div>
       </div>
     </div>
