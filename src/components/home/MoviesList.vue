@@ -69,6 +69,7 @@
           <button @click="showEditModal = false" class="mt-2 inline-flex justify-center rounded-lg text-sm font-semibold py-2.5 px-4 bg-gray-600 text-white hover:bg-gray-500">Cancel</button>
         </div>
       </div>
+      
     </div>
   </div>
 </template>
