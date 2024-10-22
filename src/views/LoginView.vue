@@ -5,7 +5,7 @@
         Sign in to your account
       </h2>
     </div>
-
+    
     <div class="mt-10 sm:mx-auto sm:w-full sm:max-w-sm">
       <form class="space-y-6" @submit.prevent="login">
         <div>
@@ -23,12 +23,7 @@
         </div>
 
         <div>
-          <div class="flex items-center justify-between">
-            <label for="password" class="block text-sm font-medium leading-6 text-gray-900">Password</label>
-            <!-- <div class="text-sm">
-              <a href="#" class="font-semibold text-indigo-600 hover:text-indigo-500">Forgot password?</a>
-            </div> -->
-          </div>
+          <label for="password" class="block text-sm font-medium leading-6 text-gray-900">Password</label>
           <div class="mt-2">
             <input
               id="password"
@@ -51,14 +46,13 @@
         </div>
       </form>
 
-      <p class="mt-2 text-center text-sm text-green-500" v-if="success">{{ success }}</p> <!-- Display success message -->
-      <p class="mt-2 text-center text-sm text-red-500" v-if="error">{{ error }}</p> <!-- Display error message -->
+      <p class="mt-2 text-center text-sm text-green-500" v-if="success">{{ success }}</p>
+      <p class="mt-2 text-center text-sm text-red-500" v-if="error">{{ error }}</p>
 
       <p class="mt-10 text-center text-sm text-gray-500">
         Not a member?
-        {{ ' ' }}
         <RouterLink to="/register">
-          <a href="#" class="font-semibold leading-6 text-indigo-600 hover:text-indigo-500">Sign up</a>
+          <span class="font-semibold leading-6 text-indigo-600 hover:text-indigo-500">Sign up</span>
         </RouterLink>
       </p>
     </div>
@@ -68,42 +62,34 @@
 <script setup>
 import { ref } from 'vue';
 import { signInWithEmailAndPassword, onAuthStateChanged } from 'firebase/auth';
-import { auth } from '../../firebaseConfig'; // Firebase configuration
-import { useRouter } from 'vue-router'; // Router for navigation
+import { auth } from '../../firebaseConfig';
+import { useRouter } from 'vue-router';
 
 const email = ref('');
 const password = ref('');
 const error = ref('');
 const success = ref('');
-const user = ref(null); // To keep track of the logged-in user
-
 const router = useRouter();
 
-// Watch for authentication state changes
 onAuthStateChanged(auth, (currentUser) => {
-  user.value = currentUser;
+  // You can perform additional actions if needed when the auth state changes
 });
 
-// Login function
 const login = async () => {
   try {
     error.value = '';
     success.value = '';
-
-    // Sign in user
     await signInWithEmailAndPassword(auth, email.value, password.value);
-    success.value = 'Login successful! Redirecting...';
+    success.value = 'Login successful!';
 
-    // Redirect to home page
     setTimeout(() => {
       router.push('/');
-    }, 2000);
+    }, 500);
   } catch (err) {
     error.value = err.message;
   }
 };
 </script>
-
 
 <style scoped>
 </style>

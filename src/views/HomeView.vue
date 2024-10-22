@@ -3,6 +3,7 @@
     <TimeCount ref="timeCounter" />
     <MovieSearch />
     <MoviesList />
+    <Footer />
   </template>
   
   <script setup>
@@ -11,6 +12,7 @@
   import TimeCount from '../components/home/TimeCount.vue';
   import MovieSearch from '../components/home/MovieSearch.vue';
   import MoviesList from '../components/home/MoviesList.vue';
+  import Footer from '@/components/home/Footer.vue';
   
   // Create a ref to the TimeCount component
   const timeCounter = ref(null);
