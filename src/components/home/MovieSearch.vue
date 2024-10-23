@@ -1,7 +1,6 @@
 <template>
   <div class="relative isolate px-6 pt-14 lg:px-8"></div>
-  
-  <div class="mx-auto max-w-2xl sm:py-48 lg:py-16 mt-20">
+  <div class="mx-auto max-w-2xl sm:py-48 lg:py-16 mt-32">
     <form class="px-10">
       <label for="search" class="mb-2 text-sm font-medium text-gray-900 sr-only dark:text-white">Search</label>
       <div class="flex items-center">
