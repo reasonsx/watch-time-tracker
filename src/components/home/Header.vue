@@ -4,7 +4,7 @@
       <nav class="flex items-center justify-between p-6 lg:px-8" aria-label="Global">
         <div class="flex-grow flex justify-end">
           <!-- display if user is logged in -->
-          <div v-if="user" class="flex items-center">
+          <div v-if="user" class="flex items-center lg:flex-row flex-col">
             <span class="text-sm font-semibold leading-6 text-gray-900">Welcome, {{ user.email }}</span>
             <button @click="logout" class="ml-4 text-sm font-semibold leading-6 text-indigo-600 hover:text-indigo-500">Log out</button>
           </div>
@@ -16,9 +16,11 @@
             </RouterLink>
           </div>
         </div>
+        
       </nav>
     </header>
   </div>
+  
 </template>
 
 <script setup>
