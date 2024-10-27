@@ -1,8 +1,30 @@
 <template>
   <div class="bg-white">
     <div class="mx-auto max-w-2xl px-4 pb-16 sm:px-6 sm:pb-16 lg:max-w-7xl lg:px-8">
+      
+      <!-- Search Form -->
+      <div class="mx-auto max-w-2xl sm:py-12 lg:py-12 mt-6">
+        <form class="px-10 mb-6">
+          <div class="relative w-full">
+            <div class="absolute inset-y-0 start-0 flex items-center ps-3 pointer-events-none">
+              <svg class="w-4 h-4 text-gray-500 dark:text-gray-400" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 20 20">
+                <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m19 19-4-4m0-7A7 7 0 1 1 1 8a7 7 0 0 1 14 0Z"/>
+              </svg>
+            </div>
+            <input 
+              v-model="searchQuery" 
+              type="text" 
+              id="search" 
+              class="block w-full text-sm ps-10 rounded-md border-0 py-1.5 text-gray-900 ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6" 
+              placeholder="Enter movie title..." 
+              required 
+            />
+          </div>
+        </form>
+      </div>
+
       <!-- Show Add Movie Button if Admin -->
-      <div class="mt-2 mb-6 text-center">
+      <div class="text-center mb-6">
         <button
           @click="showAddModal = true"
           class="inline-flex justify-center rounded-lg text-sm font-semibold py-2.5 px-4 bg-green-600 text-white hover:bg-green-500"
@@ -11,9 +33,10 @@
         </button>
       </div>
 
+      <!-- Movie Grid -->
       <div class="grid grid-cols-1 gap-x-6 gap-y-10 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 xl:gap-x-8">
         <div 
-          v-for="movie in movies" 
+          v-for="movie in filteredMovies" 
           :key="movie.id" 
           class="group cursor-pointer" 
         >
@@ -69,23 +92,30 @@
           <button @click="showEditModal = false" class="mt-2 inline-flex justify-center rounded-lg text-sm font-semibold py-2.5 px-4 bg-gray-600 text-white hover:bg-gray-500">Cancel</button>
         </div>
       </div>
-      
     </div>
   </div>
 </template>
 
 <script setup>
-import { ref, onMounted, inject } from 'vue';
+import { ref, computed, onMounted, inject } from 'vue';
 import { db } from '../../../firebaseConfig';
 import { collection, getDocs, addDoc, deleteDoc, doc, updateDoc } from 'firebase/firestore';
 
 const movies = ref([]);
+const searchQuery = ref(''); // Holds the search query
 const timeCounter = inject('timeCounter'); // Inject the TimeCount instance
 
 const showAddModal = ref(false);
 const showEditModal = ref(false);
 const newMovie = ref({ title: '', time: 0, poster: '' });
 const editMovie = ref({ id: '', title: '', time: 0, poster: '' });
+
+// Computed property to filter movies based on search query
+const filteredMovies = computed(() => {
+  return movies.value.filter(movie => 
+    movie.title.toLowerCase().includes(searchQuery.value.toLowerCase())
+  );
+});
 
 // Fetch Movies from Firestore
 const fetchMovies = async () => {
@@ -99,13 +129,11 @@ const fetchMovies = async () => {
 // Function to add movie time to the counter
 const addMovieTime = (time) => {
   if (timeCounter && typeof timeCounter.value.addTime === 'function') {
-    timeCounter.value.addTime(time); // Call addTime from TimeCount component
+    timeCounter.value.addTime(time);
   } else {
     console.error('timeCounter or addTime method is not available');
   }
 };
-
-
 
 // Function to add a new movie
 const addMovie = async () => {
@@ -113,8 +141,8 @@ const addMovie = async () => {
     await addDoc(collection(db, "Movies"), newMovie.value);
     movies.value.push({ id: Date.now(), ...newMovie.value }); // Temporary ID until fetched
     newMovie.value = { title: '', time: 0, poster: '' }; // Reset form
-    showAddModal.value = false; // Close modal
-    await fetchMovies(); // Refresh movie list
+    showAddModal.value = false;
+    await fetchMovies();
   } catch (error) {
     console.error("Error adding movie:", error);
   }
@@ -135,8 +163,8 @@ const updateMovie = async () => {
       time: editMovie.value.time,
       poster: editMovie.value.poster,
     });
-    showEditModal.value = false; // Close modal
-    await fetchMovies(); // Refresh movie list
+    showEditModal.value = false;
+    await fetchMovies();
   } catch (error) {
     console.error("Error updating movie:", error);
   }
@@ -154,7 +182,7 @@ const confirmDelete = (id) => {
 const deleteMovie = async (id) => {
   try {
     await deleteDoc(doc(db, "Movies", id));
-    movies.value = movies.value.filter(movie => movie.id !== id); // Remove from local list
+    movies.value = movies.value.filter(movie => movie.id !== id);
   } catch (error) {
     console.error("Error deleting movie:", error);
   }
