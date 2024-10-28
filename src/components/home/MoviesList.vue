@@ -41,13 +41,14 @@
           :key="movie.id" 
           class="group cursor-pointer" 
         >
-          <div class="relative w-full overflow-hidden rounded-lg bg-gray-200" style="padding-bottom: 150%;">
-            <img
-              :src="movie.poster"
-              :alt="movie.title"
-              class="absolute inset-0 h-full w-full object-cover object-center transition-opacity duration-200 ease-in-out group-hover:opacity-75"
-            />
-          </div>
+        <div class="relative w-full overflow-hidden rounded-lg bg-gray-200 movie-card" style="padding-bottom: 150%;">
+          <img
+            :src="movie.poster"
+            :alt="movie.title"
+            @click="addMovieTime(movie.time)"
+            class="absolute inset-0 h-full w-full object-cover object-center transition-transform duration-300 ease-in-out group-hover:scale-105" 
+          />
+        </div>
 
           <h3 class="mt-4 text-sm text-gray-700 text-center">{{ movie.title }}</h3>
           <p class="mt-1 text-lg font-medium text-gray-900 text-center">{{ movie.time }} minutes</p>
