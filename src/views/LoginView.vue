@@ -5,7 +5,7 @@
         Sign in to your account
       </h2>
     </div>
-    
+
     <div class="mt-10 sm:mx-auto sm:w-full sm:max-w-sm">
       <form class="space-y-6" @submit.prevent="login">
         <div>
@@ -72,6 +72,8 @@ const password = ref('');
 const error = ref('');
 const success = ref('');
 const router = useRouter();
+// const userRole = ref(''); // Track user role
+
 
 onAuthStateChanged(auth, (currentUser) => {
   // You can perform additional actions if needed when the auth state changes
@@ -91,6 +93,7 @@ const login = async () => {
     error.value = err.message;
   }
 };
+
 </script>
 
 <style scoped>
