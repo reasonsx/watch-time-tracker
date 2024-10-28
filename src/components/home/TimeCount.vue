@@ -4,8 +4,9 @@
     
     <div class="flex items-center justify-center space-x-2">
       <svg 
-        @click="resetTime" 
-        class="w-6 h-6 text-gray-700 cursor-pointer hover:text-gray-700 transition-colors duration-200 ease-in-out" 
+        @click="onResetClick" 
+        :class="{'rotate': isRotating}" 
+        class="w-6 h-6 text-gray-700 cursor-pointer hover:text-gray-700 transition-transform duration-300 ease-in-out" 
         aria-hidden="true" 
         xmlns="http://www.w3.org/2000/svg" 
         width="24" 
@@ -24,11 +25,13 @@
   </div>
 </template>
 
+
 <script setup>
 import { ref, computed } from 'vue';
 
 // State for tracking total time
 const totalTime = ref(0);
+const isRotating = ref(false); // Track rotation state
 
 // Computed property for formatted total time display
 const formattedTotalTime = computed(() => {
@@ -48,9 +51,26 @@ const resetTime = () => {
   totalTime.value = 0;
 };
 
+// Function to handle the reset button click
+const onResetClick = () => {
+  isRotating.value = true; // Start rotation
+
+  resetTime(); // Reset the total time
+
+  // Remove rotation after the animation duration
+  setTimeout(() => {
+    isRotating.value = false; // Stop rotation
+  }, 300); // Match duration with CSS animation
+};
+
 // Expose addTime function to parent component
 defineExpose({ addTime });
 </script>
 
+
 <style scoped>
+.rotate {
+  transform: rotate(360deg);
+  transition: transform 0.3s ease-in-out;
+}
 </style>

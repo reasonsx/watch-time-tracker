@@ -25,7 +25,7 @@
       </div>
 
       <!-- Show Add Movie Button if Admin -->
-      <div v-if="userRole === 'admin'" class="text-center mb-6">
+      <div class="text-center mb-12">
         <button
           @click="showAddModal = true"
           class="inline-flex justify-center rounded-lg text-sm font-semibold py-2.5 px-4 bg-green-600 text-white hover:bg-green-500"
