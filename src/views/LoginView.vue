@@ -64,7 +64,8 @@
 <script setup>
 import { ref } from 'vue';
 import { signInWithEmailAndPassword, onAuthStateChanged } from 'firebase/auth';
-import { auth } from '../../firebaseConfig';
+import { auth, db } from '../../firebaseConfig';
+import { doc, getDoc } from 'firebase/firestore';
 import { useRouter } from 'vue-router';
 
 const email = ref('');
@@ -72,27 +73,40 @@ const password = ref('');
 const error = ref('');
 const success = ref('');
 const router = useRouter();
-// const userRole = ref(''); // Track user role
+const userRole = ref(''); // Track user role
 
-
-onAuthStateChanged(auth, (currentUser) => {
-  // You can perform additional actions if needed when the auth state changes
+onAuthStateChanged(auth, async (currentUser) => {
+  if (currentUser) {
+    const userDoc = await getDoc(doc(db, "Users", currentUser.uid)); // Assuming roles are stored in the Users collection
+    if (userDoc.exists()) {
+      userRole.value = userDoc.data().role; // Fetch role from Firestore
+    }
+  }
 });
 
 const login = async () => {
   try {
     error.value = '';
     success.value = '';
-    await signInWithEmailAndPassword(auth, email.value, password.value);
-    success.value = 'Login successful!';
+    const userCredential = await signInWithEmailAndPassword(auth, email.value, password.value);
+    const user = userCredential.user;
 
+    // Fetch user role after successful login
+    const userDoc = await getDoc(doc(db, "Users", user.uid));
+    if (userDoc.exists()) {
+      userRole.value = userDoc.data().role; // Retrieve role from Firestore
+    }
+
+    success.value = 'Login successful!';
     setTimeout(() => {
-      router.push('/');
+      // Pass the role to the home page or desired route
+      router.push({ path: '/', query: { role: userRole.value } });
     }, 500);
   } catch (err) {
     error.value = err.message;
   }
 };
+
 
 </script>
 

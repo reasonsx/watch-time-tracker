@@ -2,7 +2,6 @@
   <div class="bg-white p-6 fixed w-full z-10 shadow-md border border-gray-200">
     <h2 class="text-2xl font-bold mb-2 text-center text-indigo-600">Total Time</h2>
     
-    <!-- Total Time and Reset SVG -->
     <div class="flex items-center justify-center space-x-2">
       <svg 
         @click="resetTime" 
@@ -28,14 +27,14 @@
 <script setup>
 import { ref, computed } from 'vue';
 
+// State for tracking total time
 const totalTime = ref(0);
 
-// Computed property to format total time
+// Computed property for formatted total time display
 const formattedTotalTime = computed(() => {
   const days = Math.floor(totalTime.value / (60 * 24));
   const hours = Math.floor((totalTime.value % (60 * 24)) / 60);
   const minutes = totalTime.value % 60;
-
   return `${days} days, ${hours} hours, ${minutes} minutes`;
 });
 
@@ -44,12 +43,12 @@ const addTime = (time) => {
   totalTime.value += time;
 };
 
-// Function to reset the time counter
+// Function to reset the total time counter
 const resetTime = () => {
   totalTime.value = 0;
 };
 
-// Export the addTime function to use in the parent component
+// Expose addTime function to parent component
 defineExpose({ addTime });
 </script>
 

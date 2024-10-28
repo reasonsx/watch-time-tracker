@@ -25,7 +25,7 @@
       </div>
 
       <!-- Show Add Movie Button if Admin -->
-      <div class="text-center mb-6">
+      <div v-if="userRole === 'admin'" class="text-center mb-6">
         <button
           @click="showAddModal = true"
           class="inline-flex justify-center rounded-lg text-sm font-semibold py-2.5 px-4 bg-green-600 text-white hover:bg-green-500"
@@ -35,7 +35,7 @@
       </div>
 
       <!-- Movie Grid -->
-      <div class="grid grid-cols-1 gap-x-6 gap-y-10 max-sm:grid-cols-2 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 xl:gap-x-8">
+      <div class="grid grid-cols-1 gap-x-6 gap-y-10 max-sm:grid sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 xl:gap-x-8">
         <div 
           v-for="movie in filteredMovies" 
           :key="movie.id" 
@@ -103,9 +103,11 @@ import { ref, computed, onMounted, inject } from 'vue';
 import { db } from '../../../firebaseConfig';
 import { collection, getDocs, addDoc, deleteDoc, doc, updateDoc } from 'firebase/firestore';
 
+
 const movies = ref([]);
 const searchQuery = ref(''); // Holds the search query
 const timeCounter = inject('timeCounter'); // Inject the TimeCount instance
+
 
 const showAddModal = ref(false);
 const showEditModal = ref(false);
