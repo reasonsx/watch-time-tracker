@@ -1,7 +1,7 @@
 <template>
   <div class="relative isolate px-6 pt-14 lg:px-8"></div>
   
-  <div class="mx-auto max-w-2xl sm:py-12 lg:py-12 mt-24">
+  <!-- <div class="mx-auto max-w-2xl sm:py-12 lg:py-12 mt-24">
     <form class="px-10">
       <div class="relative w-full">
         <div class="absolute inset-y-0 start-0 flex items-center ps-3 pointer-events-none">
@@ -18,7 +18,7 @@
         />
       </div>
     </form>
-  </div>
+  </div> -->
 </template>
 
 <script setup>

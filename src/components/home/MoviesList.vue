@@ -3,8 +3,9 @@
     <div class="mx-auto max-w-2xl px-4 pb-16 sm:px-6 sm:pb-16 lg:max-w-7xl lg:px-8">
       
       <!-- Search Form -->
-      <div class="mx-auto max-w-2xl sm:py-12 lg:py-12 mt-6">
-        <form class="px-10 mb-6">
+      <div class="relative isolate px-6 pt-14 lg:px-8"></div>
+      <div class="mx-auto max-w-2xl sm:py-12 lg:py-12 mt-10">
+        <form class="px-10">
           <div class="relative w-full">
             <div class="absolute inset-y-0 start-0 flex items-center ps-3 pointer-events-none">
               <svg class="w-4 h-4 text-gray-500 dark:text-gray-400" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 20 20">
