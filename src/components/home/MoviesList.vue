@@ -4,7 +4,7 @@
       
       <!-- Search Form -->
       <div class="relative isolate px-6 pt-14 lg:px-8"></div>
-      <div class="mx-auto max-w-2xl sm:py-12 lg:py-12 mt-10">
+      <div class="mx-auto max-w-2xl mt-10 py-12">
         <form class="px-10">
           <div class="relative w-full">
             <div class="absolute inset-y-0 start-0 flex items-center ps-3 pointer-events-none">
@@ -35,7 +35,7 @@
       </div>
 
       <!-- Movie Grid -->
-      <div class="grid grid-cols-1 gap-x-6 gap-y-10 max-sm:grid sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 xl:gap-x-8">
+      <div class="grid grid-cols-1 gap-x-6 gap-y-10 max-sm:grid-cols-2 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 xl:gap-x-8">
         <div 
           v-for="movie in filteredMovies" 
           :key="movie.id" 
