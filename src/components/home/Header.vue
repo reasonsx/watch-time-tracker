@@ -1,7 +1,7 @@
 <template>
   <div class="bg-white fixed z-20 w-full">
-    <header class="absolute inset-x-0 top-0 z-50">
-      <nav class="flex items-center justify-between p-6 lg:px-8" aria-label="Global">
+    <header class="absolute inset-x-0 top-0 z-20">
+      <nav class="flex items-center justify-between pt-6 px-6 lg:px-8 h-auto" aria-label="Global">
         <div class="flex-grow flex justify-end">
           <!-- display if user is logged in -->
           <div v-if="user" class="flex items-center lg:flex-row flex-col">
