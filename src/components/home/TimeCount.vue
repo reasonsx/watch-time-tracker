@@ -6,7 +6,7 @@
       <svg 
         @click="onResetClick" 
         :class="{'rotate': isRotating}" 
-        class="w-6 h-6 text-gray-700 cursor-pointer hover:text-gray-700 transition-transform duration-300 ease-in-out" 
+        class="z-50 w-6 h-6 text-gray-700 cursor-pointer hover:text-gray-700 transition-transform duration-300 ease-in-out" 
         aria-hidden="true" 
         xmlns="http://www.w3.org/2000/svg" 
         width="24" 
