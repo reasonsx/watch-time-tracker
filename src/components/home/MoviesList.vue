@@ -107,8 +107,6 @@ import { collection, getDocs, addDoc, deleteDoc, doc, updateDoc } from 'firebase
 const movies = ref([]);
 const searchQuery = ref(''); // Holds the search query
 const timeCounter = inject('timeCounter'); // Inject the TimeCount instance
-
-
 const showAddModal = ref(false);
 const showEditModal = ref(false);
 const newMovie = ref({ title: '', time: 0, poster: '' });
