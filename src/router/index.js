@@ -3,7 +3,6 @@ import HomeView from '../views/HomeView.vue';
 import LoginView from '../views/LoginView.vue';
 import RegisterView from '../views/RegisterView.vue';
 import ProfileView from '../views/ProfileView.vue';
-import Footer from '@/components/home/Footer.vue';
 
 const routes = [
   {
@@ -25,12 +24,7 @@ const routes = [
     path: '/profile',
     name: 'profile',
     component: ProfileView,
-    requireAuth: true, // Authentication requirement for this route
-  },
-  {
-    path: '/footer',
-    name: 'footer',
-    component: Footer,
+    meta: { requireAuth: true }, // Use meta to specify authentication requirement
   },
 ];
 
