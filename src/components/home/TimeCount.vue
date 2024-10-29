@@ -1,5 +1,5 @@
 <template>
-  <div class="bg-white p-6 fixed w-full z-10 shadow-md border border-gray-200">
+  <div class="bg-white p-6 fixed w-full z-10 shadow-md border border-b-gray-200">
     <h2 class="text-2xl font-bold mb-2 text-center text-indigo-600">Total Time</h2>
     
     <div class="flex items-center justify-center space-x-2">
@@ -66,7 +66,6 @@ const onResetClick = () => {
 // Expose addTime function to parent component
 defineExpose({ addTime });
 </script>
-
 
 <style scoped>
 .rotate {
