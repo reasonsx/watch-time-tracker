@@ -177,118 +177,25 @@
 </template>
 
 <script setup>
-import { ref, computed, onMounted, inject } from 'vue';
-import { db } from '../../../firebaseConfig';
-import { collection, getDocs, addDoc, deleteDoc, doc, updateDoc } from 'firebase/firestore';
+import useMovies from '../../modules/useMovies';
 
-// Firebase Auth or user service (assuming a function to get user role)
-import { useUsers } from '../../modules/useUsers'; 
-// State for clicked movies
-const clickedMovies = inject('clickedMovies'); // Inject clickedMovies
-const { userRole } = useUsers(); // Access user role
-const movies = ref([]);
-const searchQuery = ref('');
-const timeCounter = inject('timeCounter');
-const showAddModal = ref(false);
-const showEditModal = ref(false);
-const newMovie = ref({ title: '', time: 0, poster: '' });
-const editMovie = ref({ id: '', title: '', time: 0, poster: '' });
-// const clickedMovies = ref([]);
-
-// Define isAdmin as a computed property to track admin role status
-const isAdmin = computed(() => userRole.value === 'admin'); // Track admin status
-
-// Check user role
-onMounted(async () => {
-  // Fetch movies on mount
-  fetchMovies();
-});
-
-// Computed property to filter movies based on search query
-const filteredMovies = computed(() => {
-  return movies.value.filter(movie => 
-    movie.title.toLowerCase().includes(searchQuery.value.toLowerCase())
-  );
-});
-
-// Fetch Movies from Firestore
-const fetchMovies = async () => {
-  const querySnapshot = await getDocs(collection(db, "Movies"));
-  movies.value = [];
-  querySnapshot.forEach((doc) => {
-    movies.value.push({ id: doc.id, ...doc.data() });
-  });
-};
-
-// Function to add movie time to the counter
-const addMovieTime = (time) => {
-  if (timeCounter && typeof timeCounter.value.addTime === 'function') {
-    timeCounter.value.addTime(time);
-  } else {
-    console.error('timeCounter or addTime method is not available');
-  }
-};
-const handleImageClick = (movie) => {
-  if (!clickedMovies.value.includes(movie.id)) {
-    clickedMovies.value.push(movie.id);
-  }
-  addMovieTime(movie.time); // Function to add movie time
-
-  // Increment the click count
-  clickCounts.value[movie.id] += 1; // Increment click count
-};
-
-// Make clickedMovies available to child components (like timeCounter)
-defineExpose({ clickedMovies });
-
-// Function to add a new movie
-const addMovie = async () => {
-  try {
-    await addDoc(collection(db, "Movies"), newMovie.value);
-    movies.value.push({ id: Date.now(), ...newMovie.value });
-    newMovie.value = { title: '', time: 0, poster: '' };
-    showAddModal.value = false;
-    await fetchMovies();
-  } catch (error) {
-    console.error("Error adding movie:", error);
-  }
-};
-
-const openEditModal = (movie) => {
-  editMovie.value = { id: movie.id, title: movie.title, time: movie.time, poster: movie.poster };
-  showEditModal.value = true;
-};
-
-const updateMovie = async () => {
-  try {
-    const movieRef = doc(db, "Movies", editMovie.value.id);
-    await updateDoc(movieRef, {
-      title: editMovie.value.title,
-      time: editMovie.value.time,
-      poster: editMovie.value.poster,
-    });
-    showEditModal.value = false;
-    await fetchMovies();
-  } catch (error) {
-    console.error("Error updating movie:", error);
-  }
-};
-
-const confirmDelete = (id) => {
-  const isConfirmed = confirm("Are you sure you want to delete this movie?");
-  if (isConfirmed) {
-    deleteMovie(id);
-  }
-};
-
-const deleteMovie = async (id) => {
-  try {
-    await deleteDoc(doc(db, "Movies", id));
-    movies.value = movies.value.filter(movie => movie.id !== id);
-  } catch (error) {
-    console.error("Error deleting movie:", error);
-  }
-};
+const {
+  // movies,
+  searchQuery,
+  filteredMovies,
+  showAddModal,
+  showEditModal,
+  newMovie,
+  editMovie,
+  isAdmin,
+  clickedMovies, // Use clickedMovies from useMovies
+  addMovie,
+  openEditModal,
+  updateMovie,
+  confirmDelete,
+  // deleteMovie,
+  handleImageClick,
+} = useMovies();
 </script>
 
 <style scoped>
