@@ -233,6 +233,9 @@ const handleImageClick = (movie) => {
     clickedMovies.value.push(movie.id);
   }
   addMovieTime(movie.time); // Function to add movie time
+
+  // Increment the click count
+  clickCounts.value[movie.id] += 1; // Increment click count
 };
 
 // Make clickedMovies available to child components (like timeCounter)
