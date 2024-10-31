@@ -1,6 +1,6 @@
 <template>
   <div class="fixed inset-x-0 mt-20 z-10 bg-white shadow-md">
-    <div class="mx-auto max-w-2xl pt-1 pb-6">
+    <div class="mx-auto max-w-2xl pt-1 pb-8">
       <form class="px-10">
         <div class="relative w-full">
           <div class="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">

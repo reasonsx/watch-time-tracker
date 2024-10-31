@@ -5,6 +5,7 @@
       <div class="relative isolate px-6 pt-14 lg:px-8"></div>
 <!-- Search Component -->
 <Search :searchQuery="searchQuery" @update:searchQuery="searchQuery = $event" />
+<div class="relative isolate px-6 pt-24 mt-2 lg:px-8"></div>
       <!-- <div class="mx-auto max-w-2xl mt-10 py-12">
         <form class="px-10">
           <div class="relative w-full">
@@ -38,7 +39,7 @@
       </div> -->
 
       <!-- Show Add Movie Button if Admin -->
-      <div v-if="isAdmin" class="text-center mb-12">
+      <div v-if="isAdmin" class="text-center mt-20">
         <button
           @click="showAddModal = true"
           class="inline-flex justify-center rounded-lg text-sm font-semibold py-2.5 px-4 bg-green-600 text-white hover:bg-green-500"
@@ -48,7 +49,8 @@
       </div>
 
       <!-- Movie Grid -->
-      <div class="grid grid-cols-1 gap-x-6 gap-y-10 max-sm:grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 xl:gap-x-8 mt-44">
+      <div class="grid grid-cols-1 gap-x-6 gap-y-10 max-sm:grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 xl:gap-x-8 mt-8">
+        
         <div
           v-for="movie in filteredMovies"
           :key="movie.id"
