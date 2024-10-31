@@ -1,5 +1,5 @@
 import { ref, onMounted } from 'vue';
-import { auth, db } from './../../firebaseConfig'; // Adjust the path if necessary
+import { auth, db } from '../../firebaseConfig';
 import { signInWithEmailAndPassword, createUserWithEmailAndPassword, signOut, onAuthStateChanged } from 'firebase/auth';
 import { doc, getDoc, setDoc } from 'firebase/firestore';
 
