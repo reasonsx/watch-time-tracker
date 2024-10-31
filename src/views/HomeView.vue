@@ -19,6 +19,11 @@
   
   // Provide the timeCounter to child components
   provide('timeCounter', timeCounter);
+
+  const clickedMovies = ref([]); // This will track the clicked movie IDs
+
+// Provide clickedMovies so it can be injected in child components
+provide('clickedMovies', clickedMovies);
   </script>
   
   <style scoped>

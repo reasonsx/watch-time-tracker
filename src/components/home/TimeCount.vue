@@ -1,7 +1,7 @@
 <template>
   <div class="bg-white p-6 fixed w-full z-10 shadow-md border border-b-gray-200">
     <h2 class="text-2xl font-bold mb-2 text-center text-indigo-600">Total Time</h2>
-    
+
     <div class="flex items-center justify-center space-x-2">
       <svg 
         @click="onResetClick" 
@@ -25,13 +25,13 @@
   </div>
 </template>
 
-
 <script setup>
-import { ref, computed } from 'vue';
+import { ref, computed, inject } from 'vue';
 
 // State for tracking total time
 const totalTime = ref(0);
 const isRotating = ref(false); // Track rotation state
+const clickedMovies = inject('clickedMovies'); // Inject clicked movies state from parent component
 
 // Computed property for formatted total time display
 const formattedTotalTime = computed(() => {
@@ -56,6 +56,11 @@ const onResetClick = () => {
   isRotating.value = true; // Start rotation
 
   resetTime(); // Reset the total time
+
+  // Reset clicked movies to remove grayscale effect
+  if (clickedMovies) {
+    clickedMovies.value = []; // Clear the list of clicked movies
+  }
 
   // Remove rotation after the animation duration
   setTimeout(() => {
