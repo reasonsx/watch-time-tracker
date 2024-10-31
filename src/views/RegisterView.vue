@@ -7,7 +7,7 @@
     </div>
 
     <div class="mt-10 sm:mx-auto sm:w-full sm:max-w-sm">
-      <form class="space-y-6" @submit.prevent="register">
+      <form class="space-y-6" @submit.prevent="registerUser">
         <div>
           <label for="username" class="block text-sm font-medium leading-6 text-gray-900">Username</label>
           <div class="mt-2">
@@ -39,9 +39,7 @@
         </div>
 
         <div>
-          <!-- <div class="flex items-center justify-between"> -->
-            <label for="password" class="block text-sm font-medium leading-6 text-gray-900">Password</label>
-          <!-- </div> -->
+          <label for="password" class="block text-sm font-medium leading-6 text-gray-900">Password</label>
           <div class="mt-2">
             <input
               id="password"
@@ -80,64 +78,22 @@
 
 <script setup>
 import { ref } from 'vue';
-import { createUserWithEmailAndPassword } from 'firebase/auth';
-import { auth, db } from '../../firebaseConfig'; // Import Firebase auth and Firestore
-import { doc, setDoc, serverTimestamp } from 'firebase/firestore'; // Firestore methods
+import { useUsers } from '../modules/useUsers';
 
+const { register, error } = useUsers(); // Import register function and error from useUsers
 const username = ref('');
 const email = ref('');
 const password = ref('');
-const error = ref('');
-const success = ref(''); // Add a reactive variable for success messages
+const success = ref('');
 
-const getErrorMessage = (errorCode) => {
-  switch (errorCode) {
-    case 'auth/email-already-in-use':
-      return 'This email is already in use. Please use a different email.';
-    case 'auth/invalid-email':
-      return 'The email address is not valid. Please enter a valid email.';
-    case 'auth/weak-password':
-      return 'The password is too weak. Please use a stronger password.';
-    case 'auth/operation-not-allowed':
-      return 'Email/Password sign-in is not enabled. Please check your settings.';
-    case 'auth/too-many-requests':
-      return 'Too many requests. Please try again later.';
-    default:
-      return 'An unknown error occurred. Please try again.';
-  }
-};
-
-const register = async () => {
+const registerUser = async () => {
   try {
-    // Reset messages
-    error.value = '';
-    success.value = '';
-
-    // Create user with email and password
-    const userCredential = await createUserWithEmailAndPassword(auth, email.value, password.value);
-    const user = userCredential.user;
-
-    // Define user data
-    const userData = {
-      username: username.value,
-      email: email.value,
-      password: password.value, // Ideally, store only the hashed version of the password
-      role: 'user', // Default role
-      createdAt: serverTimestamp(),
-    };
-
-    // Save user data to Firestore
-    await setDoc(doc(db, 'Users', user.uid), userData);
-    console.log('User registered successfully');
-    
-    // Set success message
+    await register(email.value, password.value); // Register using the useUsers composable
     success.value = 'Registration successful! You can now log in.';
   } catch (err) {
-    error.value = getErrorMessage(err.code); // Use the error mapping function
-    console.error('Error registering user:', error.value);
+    console.error('Registration failed:', error.value);
   }
 };
-
 </script>
 
 <style scoped>

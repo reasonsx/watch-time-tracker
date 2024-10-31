@@ -34,7 +34,7 @@
       </div>
 
       <!-- Show Add Movie Button if Admin -->
-      <div class="text-center mb-12">
+      <div v-if="isAdmin" class="text-center mb-12">
         <button
           @click="showAddModal = true"
           class="inline-flex justify-center rounded-lg text-sm font-semibold py-2.5 px-4 bg-green-600 text-white hover:bg-green-500">
@@ -59,7 +59,7 @@
           <p class="mt-1 text-lg font-medium text-gray-900 text-center">{{ movie.time }} minutes</p>
           
           <!-- Edit and Delete Buttons -->
-          <div class="mt-4 flex justify-center space-x-2">
+          <div v-if="isAdmin" class="mt-4 flex justify-center space-x-2">
             <button 
               @click.prevent="openEditModal(movie)" 
               class="inline-flex items-center px-4 py-2 text-sm font-medium text-white bg-blue-600 rounded-lg hover:bg-blue-500">
@@ -134,14 +134,30 @@ import { ref, computed, onMounted, inject } from 'vue';
 import { db } from '../../../firebaseConfig';
 import { collection, getDocs, addDoc, deleteDoc, doc, updateDoc } from 'firebase/firestore';
 
+// Firebase Auth or user service (assuming a function to get user role)
+import { useUsers } from '../../modules/useUsers'; 
+
+
+const { userRole } = useUsers(); // Access user role
 const movies = ref([]);
-const searchQuery = ref(''); // Holds the search query
-const timeCounter = inject('timeCounter'); // Inject the TimeCount instance
+const searchQuery = ref('');
+const timeCounter = inject('timeCounter');
 const showAddModal = ref(false);
 const showEditModal = ref(false);
 const newMovie = ref({ title: '', time: 0, poster: '' });
 const editMovie = ref({ id: '', title: '', time: 0, poster: '' });
-const clickedMovies = ref([]); // Track clicked movies for grayscale effect by their ID
+const clickedMovies = ref([]);
+
+
+
+// const isAdmin = ref(false); // Track if the user is an admin
+const isAdmin = computed(() => userRole.value === 'admin'); // Track admin status
+
+// Check user role
+onMounted(async () => {
+  isAdmin.value = await useUsers() === 'admin';
+  fetchMovies();
+});
 
 // Computed property to filter movies based on search query
 const filteredMovies = computed(() => {
@@ -153,7 +169,7 @@ const filteredMovies = computed(() => {
 // Fetch Movies from Firestore
 const fetchMovies = async () => {
   const querySnapshot = await getDocs(collection(db, "Movies"));
-  movies.value = []; // Reset movies
+  movies.value = [];
   querySnapshot.forEach((doc) => {
     movies.value.push({ id: doc.id, ...doc.data() });
   });
@@ -168,20 +184,19 @@ const addMovieTime = (time) => {
   }
 };
 
-// Makes the image grayscale when clicked
 const handleImageClick = (movie) => {
   if (!clickedMovies.value.includes(movie.id)) {
-    clickedMovies.value.push(movie.id); // Add movie ID to clickedMovies array
+    clickedMovies.value.push(movie.id);
   }
-  addMovieTime(movie.time); // Call addMovieTime function to add time
+  addMovieTime(movie.time);
 };
 
 // Function to add a new movie
 const addMovie = async () => {
   try {
     await addDoc(collection(db, "Movies"), newMovie.value);
-    movies.value.push({ id: Date.now(), ...newMovie.value }); // Temporary ID until fetched
-    newMovie.value = { title: '', time: 0, poster: '' }; // Reset form
+    movies.value.push({ id: Date.now(), ...newMovie.value });
+    newMovie.value = { title: '', time: 0, poster: '' };
     showAddModal.value = false;
     await fetchMovies();
   } catch (error) {
@@ -189,13 +204,11 @@ const addMovie = async () => {
   }
 };
 
-// Function to open edit modal
 const openEditModal = (movie) => {
   editMovie.value = { id: movie.id, title: movie.title, time: movie.time, poster: movie.poster };
   showEditModal.value = true;
 };
 
-// Function to update a movie
 const updateMovie = async () => {
   try {
     const movieRef = doc(db, "Movies", editMovie.value.id);
@@ -211,7 +224,6 @@ const updateMovie = async () => {
   }
 };
 
-// Function to confirm deletion of a movie
 const confirmDelete = (id) => {
   const isConfirmed = confirm("Are you sure you want to delete this movie?");
   if (isConfirmed) {
@@ -219,7 +231,6 @@ const confirmDelete = (id) => {
   }
 };
 
-// Function to delete a movie
 const deleteMovie = async (id) => {
   try {
     await deleteDoc(doc(db, "Movies", id));
@@ -228,11 +239,8 @@ const deleteMovie = async (id) => {
     console.error("Error deleting movie:", error);
   }
 };
-
-onMounted(() => {
-  fetchMovies();
-});
 </script>
+
 
 <style scoped>
 </style>

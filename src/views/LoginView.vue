@@ -7,7 +7,7 @@
     </div>
 
     <div class="mt-10 sm:mx-auto sm:w-full sm:max-w-sm">
-      <form class="space-y-6" @submit.prevent="login">
+      <form class="space-y-6" @submit.prevent="loginUser">
         <div>
           <label for="email" class="block text-sm font-medium leading-6 text-gray-900">Email address</label>
           <div class="mt-2">
@@ -63,51 +63,24 @@
 
 <script setup>
 import { ref } from 'vue';
-import { signInWithEmailAndPassword, onAuthStateChanged } from 'firebase/auth';
-import { auth, db } from '../../firebaseConfig';
-import { doc, getDoc } from 'firebase/firestore';
+import { useUsers } from '../modules/useUsers';
 import { useRouter } from 'vue-router';
 
+const { login, error, userRole } = useUsers(); // Import the login function, error, and userRole
 const email = ref('');
 const password = ref('');
-const error = ref('');
 const success = ref('');
 const router = useRouter();
-const userRole = ref(''); // Track user role
 
-onAuthStateChanged(auth, async (currentUser) => {
-  if (currentUser) {
-    const userDoc = await getDoc(doc(db, "Users", currentUser.uid)); // Assuming roles are stored in the Users collection
-    if (userDoc.exists()) {
-      userRole.value = userDoc.data().role; // Fetch role from Firestore
-    }
-  }
-});
-
-const login = async () => {
+const loginUser = async () => {
   try {
-    error.value = '';
-    success.value = '';
-    const userCredential = await signInWithEmailAndPassword(auth, email.value, password.value);
-    const user = userCredential.user;
-
-    // Fetch user role after successful login
-    const userDoc = await getDoc(doc(db, "Users", user.uid));
-    if (userDoc.exists()) {
-      userRole.value = userDoc.data().role; // Retrieve role from Firestore
-    }
-
+    await login(email.value, password.value); // Use login function from useUsers
     success.value = 'Login successful!';
-    setTimeout(() => {
-      // Pass the role to the home page or desired route
-      router.push({ path: '/', query: { role: userRole.value } });
-    }, 500);
+    router.push({ path: '/', query: { role: userRole.value } }); // Navigate based on user role
   } catch (err) {
-    error.value = err.message;
+    console.error('Login failed:', error.value);
   }
 };
-
-
 </script>
 
 <style scoped>
