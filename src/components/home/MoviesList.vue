@@ -1,10 +1,11 @@
 <template>
   <div class="bg-white">
-    <div class="mx-auto max-w-2xl px-4 pb-16 sm:px-6 sm:pb-16 lg:max-w-7xl lg:px-8">
+    <div class="mx-auto max-w-2xl px-4 pb-16 sm:px-6 sm:pb-16 lg:max-w-7xl lg:px-8 mt">
       <!-- Search Form -->
       <div class="relative isolate px-6 pt-14 lg:px-8"></div>
-
-      <div class="mx-auto max-w-2xl mt-10 py-12">
+<!-- Search Component -->
+<Search :searchQuery="searchQuery" @update:searchQuery="searchQuery = $event" />
+      <!-- <div class="mx-auto max-w-2xl mt-10 py-12">
         <form class="px-10">
           <div class="relative w-full">
             <div class="absolute inset-y-0 start-0 flex items-center ps-3 pointer-events-none">
@@ -34,7 +35,7 @@
             />
           </div>
         </form>
-      </div>
+      </div> -->
 
       <!-- Show Add Movie Button if Admin -->
       <div v-if="isAdmin" class="text-center mb-12">
@@ -47,7 +48,7 @@
       </div>
 
       <!-- Movie Grid -->
-      <div class="grid grid-cols-1 gap-x-6 gap-y-10 max-sm:grid-cols-2 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 xl:gap-x-8">
+      <div class="grid grid-cols-1 gap-x-6 gap-y-10 max-sm:grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 xl:gap-x-8 mt-44">
         <div
           v-for="movie in filteredMovies"
           :key="movie.id"
@@ -177,7 +178,9 @@
 </template>
 
 <script setup>
+import Search from './MovieSearch.vue'; // Import the Search component
 import useMovies from '../../modules/useMovies';
+
 
 const {
   // movies,

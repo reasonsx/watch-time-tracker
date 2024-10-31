@@ -1,5 +1,5 @@
 <template>
-  <div class="bg-white p-6 fixed w-full z-10 shadow-md">
+  <div class="bg-white p-6 fixed w-full z-10 shadow-md ">
     <h2 class="text-2xl font-bold mb-2 text-center text-indigo-600">Total Time</h2>
 
     <div class="flex items-center justify-center space-x-2">
@@ -25,9 +25,10 @@
       <p class="text-lg text-gray-700">{{ formattedTotalTime }}</p>
     </div>
 
-    <p class="mt-4 text-sm text-gray-500 text-center">
+    <p class="mt-2 text-sm text-gray-500 text-center">
       Click on movie posters to add time!
     </p>
+    
   </div>
 </template>
 

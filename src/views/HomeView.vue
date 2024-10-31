@@ -1,8 +1,7 @@
 <template>
   <TimeCount ref="timeCounter" />
     <Header />
-    <!-- <TimeCount ref="timeCounter" /> -->
-    <MovieSearch />
+    <!-- <MovieSearch /> -->
     <MoviesList />
     <Footer />
   </template>
