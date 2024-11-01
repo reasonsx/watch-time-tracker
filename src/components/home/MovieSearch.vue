@@ -1,8 +1,13 @@
 <template>
-  <div data-aos="zoom-in" data-aos-once="true" class="fixed inset-x-0 mt-20 max-sm:mt-24 max-md:mt-24 z-10">
+  <div 
+    data-aos="zoom-in" 
+    data-aos-once="true" 
+    class="fixed inset-x-0 mt-20 max-sm:mt-24 max-md:mt-24 z-10"
+  >
     <div class="mx-auto max-w-2xl pt-1 pb-8">
       <form class="px-10">
         <div class="relative w-full">
+          <!-- Search Icon -->
           <div class="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
             <svg
               class="w-4 h-4 text-gray-500 dark:text-gray-400"
@@ -20,6 +25,8 @@
               />
             </svg>
           </div>
+          
+          <!-- Search Input -->
           <input
             v-model="query"
             type="text"
@@ -32,23 +39,22 @@
         </div>
       </form>
     </div>
-    
   </div>
 </template>
 
 <script setup>
 import { ref } from 'vue';
 
-// Props and Emit setup
+// Define props and emit setup
 const props = defineProps({
   searchQuery: String,
 });
-const emit = defineEmits(['update:searchQuery']);
+const emit = defineEmits(['update:searchQuery']); //Goes to MovieList.vue
 
 // Local state for the search query
 const query = ref(props.searchQuery);
 
-// Emit the updated query to parent component
+// Emit the updated query to the parent component
 const updateQuery = () => {
   emit('update:searchQuery', query.value);
 };
