@@ -1,5 +1,5 @@
 <template>
-  <div data-aos="fade-down" class="bg-white p-6 fixed w-full z-10 shadow-md bg-opacity-95 h-52">
+  <div data-aos="zoom-in" class="bg-white p-6 fixed w-full z-10 shadow-md bg-opacity-95 h-52">
     <h2 class="text-2xl font-bold mb-2 text-center text-indigo-600">Total Time</h2>
 
     <div class="flex items-center justify-center space-x-2">
