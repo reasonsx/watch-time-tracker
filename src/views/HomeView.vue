@@ -24,6 +24,8 @@
 
 // Provide clickedMovies so it can be injected in child components
 provide('clickedMovies', clickedMovies);
+
+
   </script>
   
   <style scoped>

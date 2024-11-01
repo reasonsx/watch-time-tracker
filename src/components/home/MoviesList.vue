@@ -36,7 +36,7 @@
       />
       <!-- Display Click Count Without Background -->
       <div v-if="movie.clickCount >= 2" class="absolute inset-0 flex items-center justify-center text-white text-6xl font-bold leading-6 opacity-80" style="pointer-events: none;">
-  {{ movie.clickCount }}x
+  {{ movie.clickCount }}
 </div>
 
 

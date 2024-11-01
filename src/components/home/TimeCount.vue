@@ -61,10 +61,12 @@ const resetTime = () => {
   }
 };
 
+
 // Function to handle the reset button click
 const onResetClick = () => {
   isRotating.value = true; // Start rotation
   resetTime(); // Reset the total time
+  resetCounts(); // Reset the clicked movies count
 
   // Remove rotation after the animation duration
   setTimeout(() => {
