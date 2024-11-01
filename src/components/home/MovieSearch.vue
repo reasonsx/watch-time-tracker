@@ -1,5 +1,5 @@
 <template>
-  <div data-aos="zoom-in" class="fixed inset-x-0 mt-20 z-10">
+  <div data-aos="zoom-in" data-aos-once="true" class="fixed inset-x-0 mt-20 z-10">
     <div class="mx-auto max-w-2xl pt-1 pb-8">
       <form class="px-10">
         <div class="relative w-full">
