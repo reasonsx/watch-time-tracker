@@ -1,13 +1,33 @@
 import { ref, onMounted } from 'vue';
 import { auth, db } from '../../firebaseConfig';
-import { signInWithEmailAndPassword, createUserWithEmailAndPassword, signOut, onAuthStateChanged } from 'firebase/auth';
+import { 
+  signInWithEmailAndPassword, 
+  createUserWithEmailAndPassword, 
+  signOut, 
+  onAuthStateChanged 
+} from 'firebase/auth';
 import { doc, getDoc, setDoc } from 'firebase/firestore';
 
+// Custom user management composable function
 const useUsers = () => {
-  const user = ref(null);
-  const error = ref(null);
-  const userRole = ref(null); // To store the user's role
+  // Reactive state variables
+  const user = ref(null);          // Stores the current user object
+  const userRole = ref(null);      // Stores the user's role (e.g., 'admin', 'user')
+  const error = ref(null);         // Stores error messages for user feedback
 
+  // Listen for Firebase auth state changes and fetch user role if logged in
+  onMounted(() => {
+    onAuthStateChanged(auth, async (currentUser) => {
+      user.value = currentUser;
+      if (currentUser) {
+        await fetchUserRole(currentUser.uid);  // Fetch role if user is logged in
+      } else {
+        userRole.value = null;                 // Reset role if logged out
+      }
+    });
+  });
+
+  // Utility function to map Firebase error codes to user-friendly messages
   const getErrorMessage = (errorCode) => {
     switch (errorCode) {
       case 'auth/invalid-email':
@@ -25,74 +45,66 @@ const useUsers = () => {
     }
   };
 
+  // Fetches the user's role from Firestore using their userId
+  const fetchUserRole = async (userId) => {
+    const userDoc = doc(db, 'users', userId);
+    const userSnapshot = await getDoc(userDoc);
+
+    if (userSnapshot.exists()) {
+      userRole.value = userSnapshot.data().role;  // Update role from Firestore data
+      console.log(`Fetched role for user ${userId}: ${userRole.value}`); // Debugging
+    } else {
+      console.error('No such document!');  // Handle missing document
+    }
+  };
+
+  // Registers a new user and assigns them a default role in Firestore
   const register = async (email, password) => {
     try {
       const userCredential = await createUserWithEmailAndPassword(auth, email, password);
       user.value = userCredential.user;
       error.value = null;
 
-      // Add user to Firestore with default role
+      // Add user data to Firestore with a default role of 'user'
       await setDoc(doc(db, 'users', user.value.uid), {
         uid: user.value.uid,
         email: user.value.email,
-        role: 'user' // Default role for new users
+        role: 'user'
       });
     } catch (err) {
-      error.value = getErrorMessage(err.code);
+      error.value = getErrorMessage(err.code);  // Set error message for UI display
     }
   };
 
+  // Logs in an existing user and fetches their role from Firestore
   const login = async (email, password) => {
     try {
       const userCredential = await signInWithEmailAndPassword(auth, email, password);
       user.value = userCredential.user;
       error.value = null;
 
-      // Fetch user role from Firestore after login
+      // Fetch role data after login
       await fetchUserRole(user.value.uid);
     } catch (err) {
       error.value = getErrorMessage(err.code);
     }
   };
 
+  // Logs out the current user and clears the user and role data
   const logout = async () => {
     try {
       await signOut(auth);
       user.value = null;
-      userRole.value = null; // Reset role when logging out
+      userRole.value = null;  // Clear role on logout
       error.value = null;
     } catch (err) {
       error.value = getErrorMessage(err.code);
     }
   };
 
-  // Function to fetch user role from Firestore
-  const fetchUserRole = async (userId) => {
-    const userDoc = doc(db, 'users', userId); // Access the user document in Firestore
-    const userSnapshot = await getDoc(userDoc);
-
-    if (userSnapshot.exists()) {
-      userRole.value = userSnapshot.data().role; // Get the role from the Firestore document
-      console.log(`Fetched role for user ${userId}: ${userRole.value}`); // Add this line
-    
-    } else {
-      console.error('No such document!');
-    }
-  };
-
-  // Listen to Firebase auth state changes
-  onMounted(() => {
-    onAuthStateChanged(auth, async (currentUser) => {
-      user.value = currentUser;
-      if (currentUser) {
-        await fetchUserRole(currentUser.uid); // Fetch the role after user logs in
-      } else {
-        userRole.value = null; // Reset role if user is logged out
-      }
-    });
-  });
-
-  return { user, userRole, error, register, login, logout }; // Return necessary refs and functions
+  // Return reactive data and methods for use in other components
+  return { user, userRole, error, register, login, logout };
 };
+
 export default useUsers;
 export { useUsers };

@@ -8,6 +8,7 @@
 
     <div class="mt-10 sm:mx-auto sm:w-full sm:max-w-sm">
       <form class="space-y-6" @submit.prevent="loginUser">
+        <!-- Email Input -->
         <div>
           <label for="email" class="block text-sm font-medium leading-6 text-gray-900">Email address</label>
           <div class="mt-2">
@@ -23,6 +24,7 @@
           </div>
         </div>
 
+        <!-- Password Input -->
         <div>
           <label for="password" class="block text-sm font-medium leading-6 text-gray-900">Password</label>
           <div class="mt-2">
@@ -38,6 +40,7 @@
           </div>
         </div>
 
+        <!-- Submit Button -->
         <div>
           <button
             type="submit"
@@ -48,9 +51,11 @@
         </div>
       </form>
 
+      <!-- Success and Error Messages -->
       <p class="mt-2 text-center text-sm text-green-500" v-if="success">{{ success }}</p>
       <p class="mt-2 text-center text-sm text-red-500" v-if="error">{{ error }}</p>
 
+      <!-- Sign Up Link -->
       <p class="mt-10 text-center text-sm text-gray-500">
         Not a member?
         <RouterLink to="/register">
@@ -66,19 +71,23 @@ import { ref } from 'vue';
 import { useUsers } from '../modules/useUsers';
 import { useRouter } from 'vue-router';
 
-const { login, error, userRole } = useUsers(); // Import the login function, error, and userRole
-const email = ref('');
-const password = ref('');
-const success = ref('');
-const router = useRouter();
+// Using the useUsers composable to handle authentication
+const { login, error, userRole } = useUsers();
+const email = ref(''); // Email input model
+const password = ref(''); // Password input model
+const success = ref(''); // Success message
+const router = useRouter(); // Router instance for navigation
 
+// Function to handle user login
 const loginUser = async () => {
+  success.value = ''; // Clear previous success message
   try {
-    await login(email.value, password.value); // Use login function from useUsers
-    success.value = 'Login successful!';
-    router.push({ path: '/', query: { role: userRole.value } }); // Navigate based on user role
+    await login(email.value, password.value); // Attempt login
+    success.value = 'Login successful!'; // Set success message
+    // Navigate based on user role after successful login
+    router.push({ path: '/', query: { role: userRole.value } });
   } catch (err) {
-    console.error('Login failed:', error.value);
+    console.error('Login failed:', error.value); // Log the error
   }
 };
 </script>

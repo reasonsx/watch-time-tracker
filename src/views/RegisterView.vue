@@ -72,13 +72,18 @@ const password = ref('');
 const success = ref('');
 
 const registerUser = async () => {
+  success.value = ''; // Clear success message on new submission
+  error.value = '';   // Clear error message on new submission
+
   try {
     await register(email.value, password.value); // Register using the useUsers composable
-    success.value = 'Registration successful! You can now log in.';
+    // success.value = 'Registration successful! You can now log in.';
   } catch (err) {
     console.error('Registration failed:', error.value);
+    error.value = error.value || 'Registration failed. Please try again.'; // Set error message
   }
 };
+
 </script>
 
 <style scoped>

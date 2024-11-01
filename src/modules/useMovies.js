@@ -55,34 +55,35 @@ export default function useMovies() {
   };
 
   // Handle clicks on movie images
-// Handle clicks on movie images
-// Handle clicks on movie images
-const handleImageClick = (movie) => {
-  const movieIndex = clickedMovies.value.indexOf(movie.id); // Check if movie is already clicked
-  if (movieIndex === -1) {
-    // If not clicked, add to clickedMovies and add time
-    clickedMovies.value.push(movie.id); // Add movie ID
-    addMovieTime(movie.time); // Add the movie's time to total
-  } else {
-    // If already clicked, remove from clickedMovies and subtract time
-    clickedMovies.value.splice(movieIndex, 1); // Remove movie ID
-    addMovieTime(-movie.time); // Subtract the movie's time from total
-  }
-};
-
-
+  const handleImageClick = (movie) => {
+    const movieIndex = clickedMovies.value.indexOf(movie.id); // Check if movie is already clicked
+    if (movieIndex === -1) {
+      // If not clicked, add to clickedMovies and add time
+      clickedMovies.value.push(movie.id); // Add movie ID
+      addMovieTime(movie.time); // Add the movie's time to total
+    } else {
+      // If already clicked, remove from clickedMovies and subtract time
+      clickedMovies.value.splice(movieIndex, 1); // Remove movie ID
+      addMovieTime(-movie.time); // Subtract the movie's time from total
+    }
+  };
 
   // Add a new movie to Firestore and update `movies`
   const addMovie = async () => {
     try {
       const movieToAdd = { ...newMovie.value, clickCount: 0 };
       await addDoc(collection(db, 'Movies'), movieToAdd);
-      newMovie.value = { title: '', time: 0, poster: '' }; // Reset form
-      showAddModal.value = false;
+      resetNewMovie(); // Reset form after successful addition
       await fetchMovies(); // Refresh movie list
     } catch (error) {
       console.error('Error adding movie:', error);
     }
+  };
+
+  // Reset new movie form
+  const resetNewMovie = () => {
+    newMovie.value = { title: '', time: 0, poster: '' };
+    showAddModal.value = false;
   };
 
   // Open the edit modal with the selected movie's details
@@ -100,14 +101,14 @@ const handleImageClick = (movie) => {
         time: editMovie.value.time,
         poster: editMovie.value.poster,
       });
-      showEditModal.value = false;
-      await fetchMovies();
+      showEditModal.value = false; // Close edit modal
+      await fetchMovies(); // Refresh movie list
     } catch (error) {
       console.error('Error updating movie:', error);
     }
   };
 
-  // Confirm deletion of a movie with user prompt
+  // Confirm deletion of a movie with a pop up windows from browser
   const confirmDelete = (id) => {
     const isConfirmed = confirm('Are you sure you want to delete this movie?');
     if (isConfirmed) {
