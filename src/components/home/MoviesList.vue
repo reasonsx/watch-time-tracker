@@ -28,9 +28,6 @@
               :class="{ 'grayscale': clickedMovies.includes(movie.id) }"
               class="absolute inset-0 h-full w-full object-cover object-center transition-transform duration-300 ease-in-out group-hover:scale-105"
             />
-            <div v-if="movie.clickCount >= 2" class="absolute inset-0 flex items-center justify-center text-white text-6xl font-bold leading-6 opacity-80" style="pointer-events: none;">
-              {{ movie.clickCount }}
-            </div>
           </div>
           <h3 class="mt-4 text-sm text-gray-700 text-center">{{ movie.title }}</h3>
           <p class="mt-1 text-lg font-medium text-gray-900 text-center">{{ movie.time }} minutes</p>
