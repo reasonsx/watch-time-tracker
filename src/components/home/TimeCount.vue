@@ -34,13 +34,14 @@
 <script setup>
 import { ref, computed, inject } from 'vue';
 
-// State for tracking total time
-const totalTime = ref(0);
-const isRotating = ref(false); // Track rotation state
-const clickedMovies = inject('clickedMovies'); // Inject clicked movies state from parent component
-// const resetCounts = inject('resetCounts'); // Inject resetCounts function from parent component
+// Injected properties
+const clickedMovies = inject('clickedMovies'); // Inject clicked movies state from parent component (grayscale)
 
-// Computed property for formatted total time display
+// Local state properties
+const totalTime = ref(0); // Total time tracker
+const isRotating = ref(false); // Rotation animation state
+
+// Computed property to format total time display
 const formattedTotalTime = computed(() => {
   const days = Math.floor(totalTime.value / (60 * 24));
   const hours = Math.floor((totalTime.value % (60 * 24)) / 60);
@@ -48,32 +49,26 @@ const formattedTotalTime = computed(() => {
   return `${days} days, ${hours} hours, ${minutes} minutes`;
 });
 
-// Function to add time to the total
+// Methods
 const addTime = (time) => {
-  totalTime.value += time;
+  totalTime.value += time; // Add specified time
 };
 
-// Function to reset the total time counter and clicked movies
 const resetTime = () => {
-  totalTime.value = 0; // Reset the total time
-  if (clickedMovies) {
-    clickedMovies.value = []; // Clear the list of clicked movies to reset their counts
-  }
+  totalTime.value = 0; // Reset total time
+  if (clickedMovies) clickedMovies.value = []; // Reset clicked movies if available
 };
 
-// Function to handle the reset button click
 const onResetClick = () => {
-  isRotating.value = true; // Start rotation
-  resetTime(); // Reset the total time
-  // resetCounts(); // Reset the clicked movies count
+  isRotating.value = true; // Start rotation animation
+  resetTime(); // Reset time and clicked movies
 
-  // Remove rotation after the animation duration
   setTimeout(() => {
-    isRotating.value = false; // Stop rotation
-  }, 300); // Match duration with CSS animation
+    isRotating.value = false; // Stop rotation after animation duration
+  }, 300); // Duration matches CSS transition
 };
 
-// Expose addTime function to parent component
+// Expose methods to parent component
 defineExpose({ addTime });
 </script>
 
