@@ -51,8 +51,8 @@
       </div>
 
       <!-- Add Movie Modal -->
-      <div v-if="showAddModal" class="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50">
-        <div class="bg-white p-4 rounded-lg shadow-lg">
+      <div v-if="showAddModal" class="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50">
+        <div class="bg-white p-4 rounded-lg shadow-lg w-1/2">
           <h2 class="text-lg font-bold">Add New Movie</h2>
           <label for="title">Title:</label>
           <input
@@ -92,8 +92,8 @@
       </div>
 
       <!-- Edit Movie Modal -->
-      <div v-if="showEditModal" class="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50">
-        <div class="bg-white p-4 rounded-lg shadow-lg">
+      <div v-if="showEditModal" class="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50">
+        <div class="bg-white p-4 rounded-lg shadow-lg w-1/2">
           <h2 class="text-lg font-bold">Edit Movie</h2>
           <label for="editTitle">Title:</label>
           <input
