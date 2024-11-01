@@ -19,7 +19,7 @@
       <!-- Movie Grid -->
       <div class="grid grid-cols-1 gap-x-6 gap-y-10 max-sm:grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 xl:gap-x-8 mt-8">
         <div v-for="movie in filteredMovies" :key="movie.id" class="group cursor-pointer">
-          <div class="relative w-full overflow-hidden rounded-lg bg-gray-200 movie-card" style="padding-bottom: 150%;">
+          <div data-aos="zoom-in" class="relative w-full overflow-hidden rounded-lg bg-gray-200 movie-card" style="padding-bottom: 150%;">
             <img
               :src="movie.poster"
               :alt="movie.title"
@@ -137,7 +137,10 @@
 <script setup>
 import Search from './MovieSearch.vue';
 import useMovies from '../../modules/useMovies';
+import 'aos/dist/aos.css';
+import AOS from 'aos';
 
+AOS.init(); 
 
 const {
   searchQuery,

@@ -9,6 +9,7 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "aos": "^2.3.4",
     "firebase": "^10.14.1",
     "firebase-tools": "^13.22.1",
     "primevue": "^4.2.0",
