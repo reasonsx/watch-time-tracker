@@ -1,6 +1,5 @@
 <template>
   <div class="bg-white">
-    
     <div class="mx-auto max-w-2xl px-4 pb-16 sm:px-6 sm:pb-16 lg:max-w-7xl lg:px-8 mt">
       <!-- Search Form -->
       <div class="relative isolate px-6 pt-14 lg:px-8"></div>
@@ -8,6 +7,7 @@
       <!-- Search Component -->
       <Search :searchQuery="searchQuery" @update:searchQuery="searchQuery = $event" />
       <div class="relative isolate px-6 pt-24 mt-14 lg:px-8"></div>
+
       <!-- Show Add Movie Button if Admin -->
       <div v-if="isAdmin" class="text-center mt-8">
         <button
@@ -20,30 +20,20 @@
 
       <!-- Movie Grid -->
       <div class="grid grid-cols-1 gap-x-6 gap-y-10 max-sm:grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 xl:gap-x-8 mt-8">
-        <div
-          v-for="movie in filteredMovies"
-          :key="movie.id"
-          class="group cursor-pointer"
-        >
-        <div
-      class="relative w-full overflow-hidden rounded-lg bg-gray-200 movie-card"
-      style="padding-bottom: 150%;"
-    >
-      <img
-        :src="movie.poster"
-        :alt="movie.title"
-        @click="handleImageClick(movie)"
-        :class="{ 'grayscale': clickedMovies.includes(movie.id) }"
-        class="absolute inset-0 h-full w-full object-cover object-center transition-transform duration-300 ease-in-out group-hover:scale-105"
-      />
-      <!-- Display Click Count Without Background -->
-      <div v-if="movie.clickCount >= 2" class="absolute inset-0 flex items-center justify-center text-white text-6xl font-bold leading-6 opacity-80" style="pointer-events: none;">
-  {{ movie.clickCount }}
-</div>
-
-
-    </div>
-
+        <div v-for="movie in filteredMovies" :key="movie.id" class="group cursor-pointer">
+          <div class="relative w-full overflow-hidden rounded-lg bg-gray-200 movie-card" style="padding-bottom: 150%;">
+            <img
+              :src="movie.poster"
+              :alt="movie.title"
+              @click="handleImageClick(movie)"
+              :class="{ 'grayscale': clickedMovies.includes(movie.id) }"
+              class="absolute inset-0 h-full w-full object-cover object-center transition-transform duration-300 ease-in-out group-hover:scale-105"
+            />
+            <!-- Display Click Count Without Background -->
+            <div v-if="movie.clickCount >= 2" class="absolute inset-0 flex items-center justify-center text-white text-6xl font-bold leading-6 opacity-80" style="pointer-events: none;">
+              {{ movie.clickCount }}
+            </div>
+          </div>
           <h3 class="mt-4 text-sm text-gray-700 text-center">{{ movie.title }}</h3>
           <p class="mt-1 text-lg font-medium text-gray-900 text-center">{{ movie.time }} minutes</p>
 
@@ -61,7 +51,6 @@
             >
               Delete
             </button>
-            
           </div>
         </div>
       </div>
@@ -156,7 +145,7 @@
 </template>
 
 <script setup>
-import Search from './MovieSearch.vue'; // Import the Search component
+import Search from './MovieSearch.vue';
 import useMovies from '../../modules/useMovies';
 
 const {
@@ -174,15 +163,7 @@ const {
   confirmDelete,
   handleImageClick,
 } = useMovies();
-
-// Define reset function to clear movie clickCounts
-const resetClickCounts = () => {
-  filteredMovies.value.forEach((movie) => {
-    movie.clickCount = 0;
-  });
-};
-
-// Expose the resetClickCounts function to make it available to `timecount.vue`
-defineExpose({ resetClickCounts });
 </script>
-<style></style>
+
+<style>
+</style>
