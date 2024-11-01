@@ -1,5 +1,5 @@
 <template>
-  <div class="bg-white p-6 fixed w-full z-10 shadow-md ">
+  <div class="bg-white p-6 fixed w-full z-10 shadow-md bg-opacity-95 h-52">
     <h2 class="text-2xl font-bold mb-2 text-center text-indigo-600">Total Time</h2>
 
     <div class="flex items-center justify-center space-x-2">
@@ -53,20 +53,18 @@ const addTime = (time) => {
   totalTime.value += time;
 };
 
-// Function to reset the total time counter
+// Function to reset the total time counter and clicked movies
 const resetTime = () => {
-  totalTime.value = 0;
+  totalTime.value = 0; // Reset the total time
+  if (clickedMovies) {
+    clickedMovies.value = []; // Clear the list of clicked movies to reset their counts
+  }
 };
 
 // Function to handle the reset button click
 const onResetClick = () => {
   isRotating.value = true; // Start rotation
   resetTime(); // Reset the total time
-
-  // Reset clicked movies to remove grayscale effect
-  if (clickedMovies) {
-    clickedMovies.value = []; // Clear the list of clicked movies
-  }
 
   // Remove rotation after the animation duration
   setTimeout(() => {

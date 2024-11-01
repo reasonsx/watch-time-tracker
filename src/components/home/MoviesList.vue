@@ -3,41 +3,9 @@
     <div class="mx-auto max-w-2xl px-4 pb-16 sm:px-6 sm:pb-16 lg:max-w-7xl lg:px-8 mt">
       <!-- Search Form -->
       <div class="relative isolate px-6 pt-14 lg:px-8"></div>
-<!-- Search Component -->
-<Search :searchQuery="searchQuery" @update:searchQuery="searchQuery = $event" />
-<div class="relative isolate px-6 pt-24 mt-14 lg:px-8"></div>
-      <!-- <div class="mx-auto max-w-2xl mt-10 py-12">
-        <form class="px-10">
-          <div class="relative w-full">
-            <div class="absolute inset-y-0 start-0 flex items-center ps-3 pointer-events-none">
-              <svg
-                class="w-4 h-4 text-gray-500 dark:text-gray-400"
-                aria-hidden="true"
-                xmlns="http://www.w3.org/2000/svg"
-                fill="none"
-                viewBox="0 0 20 20"
-              >
-                <path
-                  stroke="currentColor"
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
-                  stroke-width="2"
-                  d="m19 19-4-4m0-7A7 7 0 1 1 1 8a7 7 0 0 1 14 0Z"
-                />
-              </svg>
-            </div>
-            <input
-              v-model="searchQuery"
-              type="text"
-              id="search"
-              class="block w-full text-sm ps-10 rounded-md border-0 py-1.5 text-gray-900 ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
-              placeholder="Enter movie title..."
-              required
-            />
-          </div>
-        </form>
-      </div> -->
-
+      <!-- Search Component -->
+      <Search :searchQuery="searchQuery" @update:searchQuery="searchQuery = $event" />
+      <div class="relative isolate px-6 pt-24 mt-14 lg:px-8"></div>
       <!-- Show Add Movie Button if Admin -->
       <div v-if="isAdmin" class="text-center mt-8">
         <button
@@ -50,24 +18,29 @@
 
       <!-- Movie Grid -->
       <div class="grid grid-cols-1 gap-x-6 gap-y-10 max-sm:grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 xl:gap-x-8 mt-8">
-        
         <div
           v-for="movie in filteredMovies"
           :key="movie.id"
           class="group cursor-pointer"
         >
-          <div
-            class="relative w-full overflow-hidden rounded-lg bg-gray-200 movie-card"
-            style="padding-bottom: 150%;"
-          >
-            <img
-              :src="movie.poster"
-              :alt="movie.title"
-              @click="handleImageClick(movie)"
-              :class="{ 'grayscale': clickedMovies.includes(movie.id) }"
-              class="absolute inset-0 h-full w-full object-cover object-center transition-transform duration-300 ease-in-out group-hover:scale-105"
-            />
-          </div>
+        <div
+      class="relative w-full overflow-hidden rounded-lg bg-gray-200 movie-card"
+      style="padding-bottom: 150%;"
+    >
+      <img
+        :src="movie.poster"
+        :alt="movie.title"
+        @click="handleImageClick(movie)"
+        :class="{ 'grayscale': clickedMovies.includes(movie.id) }"
+        class="absolute inset-0 h-full w-full object-cover object-center transition-transform duration-300 ease-in-out group-hover:scale-105"
+      />
+      <!-- Display Click Count Without Background -->
+      <div v-if="movie.clickCount >= 2" class="absolute inset-0 flex items-center justify-center text-white text-6xl font-bold leading-6 opacity-80" style="pointer-events: none;">
+  {{ movie.clickCount }}x
+</div>
+
+
+    </div>
 
           <h3 class="mt-4 text-sm text-gray-700 text-center">{{ movie.title }}</h3>
           <p class="mt-1 text-lg font-medium text-gray-900 text-center">{{ movie.time }} minutes</p>
@@ -86,6 +59,7 @@
             >
               Delete
             </button>
+            
           </div>
         </div>
       </div>
@@ -183,9 +157,7 @@
 import Search from './MovieSearch.vue'; // Import the Search component
 import useMovies from '../../modules/useMovies';
 
-
 const {
-  // movies,
   searchQuery,
   filteredMovies,
   showAddModal,
@@ -193,12 +165,12 @@ const {
   newMovie,
   editMovie,
   isAdmin,
-  clickedMovies, // Use clickedMovies from useMovies
+  clickedMovies,
   addMovie,
   openEditModal,
   updateMovie,
   confirmDelete,
-  // deleteMovie,
+  // resetCounts, // Expose resetCounts for resetting counts
   handleImageClick,
 } = useMovies();
 </script>

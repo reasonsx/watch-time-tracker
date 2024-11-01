@@ -20,7 +20,11 @@ export default function useMovies() {
     const querySnapshot = await getDocs(collection(db, 'Movies'));
     movies.value = [];
     querySnapshot.forEach((doc) => {
-      movies.value.push({ id: doc.id, ...doc.data() });
+      const movieData = { id: doc.id, ...doc.data() };
+      movies.value.push({
+        ...movieData,
+        clickCount: movieData.clickCount || 0, // Default to 0 if undefined
+      });
     });
   };
 
@@ -39,6 +43,7 @@ export default function useMovies() {
   };
 
   const handleImageClick = (movie) => {
+    movie.clickCount++; // Increment the click count for the movie
     if (!clickedMovies.value.includes(movie.id)) {
       clickedMovies.value.push(movie.id);
     }
@@ -47,8 +52,9 @@ export default function useMovies() {
 
   const addMovie = async () => {
     try {
-      await addDoc(collection(db, 'Movies'), newMovie.value);
-      movies.value.push({ id: Date.now(), ...newMovie.value });
+      const movieToAdd = { ...newMovie.value, clickCount: 0 }; // Initialize counts
+      await addDoc(collection(db, 'Movies'), movieToAdd);
+      movies.value.push({ id: Date.now(), ...movieToAdd }); // Push the movie with counts
       newMovie.value = { title: '', time: 0, poster: '' };
       showAddModal.value = false;
       await fetchMovies();
@@ -93,6 +99,11 @@ export default function useMovies() {
     }
   };
 
+  const resetCounts = () => {
+    clickedMovies.value = []; // Reset clicked movies
+    movies.value.forEach(movie => movie.clickCount = 0); // Reset click counts for all movies
+  };
+
   onMounted(fetchMovies);
 
   return {
@@ -111,5 +122,6 @@ export default function useMovies() {
     confirmDelete,
     deleteMovie,
     handleImageClick,
+    resetCounts // Expose resetCounts for resetting counts
   };
 }
