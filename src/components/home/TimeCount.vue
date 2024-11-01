@@ -25,10 +25,14 @@
       <p class="text-lg text-gray-700">{{ formattedTotalTime }}</p>
     </div>
 
-    <p class="mt-2 text-sm text-gray-500 text-center">
-      Click on movie posters to add time! Click again to remove it.
-    </p>
-    
+     <div class="mt-2 text-center">
+      <p class="text-sm text-gray-500 md:inline-block md:mr-2">
+        Click on movie posters to add time!
+      </p>
+      <p class="text-sm text-gray-500 md:inline-block">
+        Click again to remove it.
+      </p>
+    </div>
   </div>
 </template>
 
