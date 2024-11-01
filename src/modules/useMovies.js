@@ -1,6 +1,13 @@
 import { ref, computed, inject, onMounted } from 'vue';
 import { db } from '../../firebaseConfig';
-import { collection, getDocs, addDoc, deleteDoc, doc, updateDoc } from 'firebase/firestore';
+import { 
+  collection, 
+  getDocs, 
+  addDoc, 
+  deleteDoc, 
+  doc, 
+  updateDoc 
+} from 'firebase/firestore';
 import { useUsers } from './useUsers';
 
 export default function useMovies() {

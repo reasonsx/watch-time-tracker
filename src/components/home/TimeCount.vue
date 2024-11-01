@@ -35,7 +35,7 @@
 import { ref, computed, inject } from 'vue';
 
 // Injected properties
-const clickedMovies = inject('clickedMovies'); // Inject clicked movies state from parent component (grayscale)
+const clickedMovies = inject('clickedMovies'); // Inject clicked movies state from parent component
 
 // Local state properties
 const totalTime = ref(0); // Total time tracker

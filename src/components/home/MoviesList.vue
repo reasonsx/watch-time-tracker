@@ -1,7 +1,6 @@
 <template>
   <div class="bg-white">
     <div class="mx-auto max-w-2xl px-4 pb-16 sm:px-6 sm:pb-16 lg:max-w-7xl lg:px-8 mt">
-      <!-- Search Form -->
       <div class="relative isolate px-6 pt-14 lg:px-8"></div>
 
       <!-- Search Component -->
@@ -29,7 +28,6 @@
               :class="{ 'grayscale': clickedMovies.includes(movie.id) }"
               class="absolute inset-0 h-full w-full object-cover object-center transition-transform duration-300 ease-in-out group-hover:scale-105"
             />
-            <!-- Display Click Count Without Background -->
             <div v-if="movie.clickCount >= 2" class="absolute inset-0 flex items-center justify-center text-white text-6xl font-bold leading-6 opacity-80" style="pointer-events: none;">
               {{ movie.clickCount }}
             </div>
@@ -66,7 +64,6 @@
             id="title"
             class="border rounded-lg w-full mb-2 focus:ring-indigo-600"
           />
-
           <label for="time">Time (minutes):</label>
           <input
             v-model.number="newMovie.time"
@@ -74,7 +71,6 @@
             id="time"
             class="border rounded-lg w-full mb-2 focus:ring-indigo-600"
           />
-
           <label for="poster">Poster URL:</label>
           <input
             v-model="newMovie.poster"
@@ -109,7 +105,6 @@
             id="editTitle"
             class="border rounded-lg w-full mb-2 focus:ring-indigo-600"
           />
-
           <label for="editTime">Time (minutes):</label>
           <input
             v-model.number="editMovie.time"
@@ -117,7 +112,6 @@
             id="editTime"
             class="border rounded-lg w-full mb-2 focus:ring-indigo-600"
           />
-
           <label for="editPoster">Poster URL:</label>
           <input
             v-model="editMovie.poster"
