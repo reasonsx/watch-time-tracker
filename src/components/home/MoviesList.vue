@@ -2,7 +2,6 @@
   <div class="bg-white">
     <div class="mx-auto max-w-2xl px-4 pb-16 sm:px-6 sm:pb-16 lg:max-w-7xl lg:px-8 mt">
       <div class="relative isolate px-6 pt-14 lg:px-8"></div>
-
       <!-- Search Component -->
       <Search :searchQuery="searchQuery" @update:searchQuery="searchQuery = $event" />
       <div class="relative isolate px-6 pt-24 mt-14 lg:px-8"></div>
@@ -93,7 +92,7 @@
 
       <!-- Edit Movie Modal -->
       <div v-if="showEditModal" class="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50">
-        <div class="bg-white p-4 rounded-lg shadow-lg w-1/2">
+        <div class="bg-white p-4 rounded-lg shadow-lg">
           <h2 class="text-lg font-bold">Edit Movie</h2>
           <label for="editTitle">Title:</label>
           <input
@@ -138,6 +137,7 @@
 <script setup>
 import Search from './MovieSearch.vue';
 import useMovies from '../../modules/useMovies';
+
 
 const {
   searchQuery,

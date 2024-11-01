@@ -1,5 +1,5 @@
 <template>
-  <div class="bg-white p-6 fixed w-full z-10 shadow-md bg-opacity-95 h-60">
+  <div class="bg-white p-6 fixed w-full z-10 shadow-md bg-opacity-95 h-52">
     <h2 class="text-2xl font-bold mb-2 text-center text-indigo-600">Total Time</h2>
 
     <div class="flex items-center justify-center space-x-2">
@@ -26,10 +26,7 @@
     </div>
 
     <p class="mt-2 text-sm text-gray-500 text-center">
-      Click on movie posters to add time!
-    </p>
-    <p class="mt-1 text-sm text-gray-500 text-center">
-      Click again to remove time from your total.
+      Click on movie posters to add time! Click again to remove it.
     </p>
     
   </div>
