@@ -1,9 +1,10 @@
 <template>
   <div class="bg-white">
+    
     <div class="mx-auto max-w-2xl px-4 pb-16 sm:px-6 sm:pb-16 lg:max-w-7xl lg:px-8 mt">
       <!-- Search Form -->
       <div class="relative isolate px-6 pt-14 lg:px-8"></div>
-      
+
       <!-- Search Component -->
       <Search :searchQuery="searchQuery" @update:searchQuery="searchQuery = $event" />
       <div class="relative isolate px-6 pt-24 mt-14 lg:px-8"></div>
@@ -171,10 +172,17 @@ const {
   openEditModal,
   updateMovie,
   confirmDelete,
-  // resetCounts, // Expose resetCounts for resetting counts
   handleImageClick,
 } = useMovies();
-</script>
 
-<style scoped>
-</style>
+// Define reset function to clear movie clickCounts
+const resetClickCounts = () => {
+  filteredMovies.value.forEach((movie) => {
+    movie.clickCount = 0;
+  });
+};
+
+// Expose the resetClickCounts function to make it available to `timecount.vue`
+defineExpose({ resetClickCounts });
+</script>
+<style></style>

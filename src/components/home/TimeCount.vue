@@ -28,7 +28,6 @@
     <p class="mt-2 text-sm text-gray-500 text-center">
       Click on movie posters to add time!
     </p>
-    
   </div>
 </template>
 
@@ -39,6 +38,7 @@ import { ref, computed, inject } from 'vue';
 const totalTime = ref(0);
 const isRotating = ref(false); // Track rotation state
 const clickedMovies = inject('clickedMovies'); // Inject clicked movies state from parent component
+// const resetCounts = inject('resetCounts'); // Inject resetCounts function from parent component
 
 // Computed property for formatted total time display
 const formattedTotalTime = computed(() => {
@@ -61,12 +61,11 @@ const resetTime = () => {
   }
 };
 
-
 // Function to handle the reset button click
 const onResetClick = () => {
   isRotating.value = true; // Start rotation
   resetTime(); // Reset the total time
-  resetCounts(); // Reset the clicked movies count
+  // resetCounts(); // Reset the clicked movies count
 
   // Remove rotation after the animation duration
   setTimeout(() => {

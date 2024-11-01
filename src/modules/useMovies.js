@@ -118,7 +118,21 @@ export default function useMovies() {
   //   movies.value.forEach(movie => movie.clickCount = 0); // Reset click counts for all movies
   // };
 
+// const reset = () => {
+//   isRotating.value = true; // Start rotation
+//   resetTime(); // Reset the total time
+//   resetCounts(); // Call resetCounts to reset the clicked movies' count
+//   // Remove rotation after the animation duration
+//   setTimeout(() => {
+//     isRotating.value = false; // Stop rotation
+//   }, 300); // Match duration with CSS animation
+// };
+// const resetCounts = () => {
+//   clickedMovies.value = []; // Clear the clickedMovies array
+//   movies.value.forEach(movie => movie.clickCount = 0); // Reset click counts for all movies
+// };
   // Fetch movies from Firestore when the component is mounted
+  
   onMounted(fetchMovies);
 
   return {
@@ -137,6 +151,5 @@ export default function useMovies() {
     confirmDelete, // Expose function for confirming movie deletion
     deleteMovie, // Expose function for deleting movies
     handleImageClick, // Expose function for handling movie image clicks
-    // resetCounts // Expose resetCounts function for resetting counts
   };
 }
