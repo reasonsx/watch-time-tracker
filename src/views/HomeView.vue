@@ -11,7 +11,7 @@ import Header from '../components/home/Header.vue';
 import TimeCount from '../components/home/TimeCount.vue';
 import MoviesList from '../components/home/MoviesList.vue';
 import Footer from '@/components/home/Footer.vue';
-import useMovies from '../modules/useMovies'; // Import your composable
+import useMovies from '../modules/useMovies';
 
 // Create a ref to the TimeCount component
 const timeCounter = ref(null);
