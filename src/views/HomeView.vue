@@ -10,7 +10,7 @@
   import { ref, provide } from 'vue'; // Import provide
   import Header from '../components/home/Header.vue';
   import TimeCount from '../components/home/TimeCount.vue';
-  import MovieSearch from '../components/home/MovieSearch.vue';
+  // import MovieSearch from '../components/home/MovieSearch.vue';
   import MoviesList from '../components/home/MoviesList.vue';
   import Footer from '@/components/home/Footer.vue';
   
