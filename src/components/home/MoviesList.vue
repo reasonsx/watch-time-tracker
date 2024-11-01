@@ -137,10 +137,10 @@
 <script setup>
 import Search from './MovieSearch.vue';
 import useMovies from '../../modules/useMovies';
-import 'aos/dist/aos.css';
-import AOS from 'aos';
+// import 'aos/dist/aos.css';
+// import AOS from 'aos';
 
-AOS.init(); 
+// AOS.init(); 
 
 const {
   searchQuery,
