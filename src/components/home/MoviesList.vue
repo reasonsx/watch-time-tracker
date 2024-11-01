@@ -2,8 +2,10 @@
   <div class="bg-white">
     <div class="mx-auto max-w-2xl px-4 pb-16 sm:px-6 sm:pb-16 lg:max-w-7xl lg:px-8 mt">
       <div class="relative isolate px-6 pt-14 lg:px-8"></div>
+      
       <!-- Search Component -->
       <Search :searchQuery="searchQuery" @update:searchQuery="searchQuery = $event" />
+
       <div class="relative isolate px-6 pt-24 mt-14 lg:px-8"></div>
 
       <!-- Show Add Movie Button if Admin -->
@@ -19,7 +21,12 @@
       <!-- Movie Grid -->
       <div class="grid grid-cols-1 gap-x-6 gap-y-10 max-sm:grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 xl:gap-x-8 mt-8">
         <div v-for="movie in filteredMovies" :key="movie.id" class="group cursor-pointer">
-          <div data-aos="zoom-in" data-aos-once="true" class="relative w-full overflow-hidden rounded-lg bg-gray-200 movie-card" style="padding-bottom: 150%;">
+          <div
+            data-aos="zoom-in" 
+            data-aos-once="true"
+            class="relative w-full overflow-hidden rounded-lg bg-gray-200 movie-card"
+            style="padding-bottom: 150%;"
+          >
             <img
               :src="movie.poster"
               :alt="movie.title"
@@ -92,7 +99,7 @@
 
       <!-- Edit Movie Modal -->
       <div v-if="showEditModal" class="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50">
-        <div class="bg-white p-4 rounded-lg shadow-lg">
+        <div class="bg-white p-4 rounded-lg shadow-lg w-1/2">
           <h2 class="text-lg font-bold">Edit Movie</h2>
           <label for="editTitle">Title:</label>
           <input
